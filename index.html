@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>resuelven™ · Productora Audiovisual Híbrida</title>
+  <meta name="description" content="Preproducción, producción y postproducción de teasers, trailers y escenas. Pipeline híbrido: IA generativa integrada con material real.">
+  <link rel="icon" href="assets/images/favicon-rsv.png">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+  <meta property="og:title" content="resuelven™ · Tu visión. Nuestro escenario.">
+  <meta property="og:description" content="Preproducción, producción y postproducción de teasers, trailers y escenas.">
+  <meta property="og:image" content="assets/images/card.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  
+  <div class="opener" id="opener" aria-hidden="true">
+    <div class="opener__logo">
+      <svg viewBox="0 0 248 60" xmlns="http://www.w3.org/2000/svg">
+        <text class="opener__word" x="0" y="46" font-family="Space Grotesk, sans-serif" font-size="40" font-weight="700" letter-spacing="-1.3" fill="#f2f5f9">resuelve</text>
+        <g class="opener__px" fill="#2D72C8">
+          <rect x="156" y="22" width="6" height="6"/><rect x="156" y="30" width="6" height="6"/>
+          <rect x="156" y="38" width="6" height="6"/>
+          <rect x="164" y="22" width="6" height="6"/><rect x="172" y="22" width="6" height="6"/>
+          <rect x="180" y="30" width="6" height="6"/><rect x="180" y="38" width="6" height="6"/>
+          <rect x="190" y="25" width="4" height="4"/>
+          <rect x="195" y="39" width="3" height="3"/>
+        </g>
+        <text class="opener__tm" x="202" y="26" font-family="Space Grotesk, sans-serif" font-size="12" font-weight="600" fill="#2D72C8">™</text>
+      </svg>
+    </div>
+  </div>
+  
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="#top" aria-label="resuelven">
+      <svg viewBox="0 0 248 60" xmlns="http://www.w3.org/2000/svg" role="img">
+        <text x="0" y="46" font-family="Space Grotesk, sans-serif" font-size="40" font-weight="700" letter-spacing="-1.3" fill="currentColor">resuelve</text>
+        <g fill="#88ACD6">
+          <rect x="156" y="22" width="6" height="6"/><rect x="156" y="30" width="6" height="6"/>
+          <rect x="156" y="38" width="6" height="6"/>
+          <rect x="164" y="22" width="6" height="6"/><rect x="172" y="22" width="6" height="6"/>
+          <rect x="180" y="30" width="6" height="6"/><rect x="180" y="38" width="6" height="6" opacity=".85"/>
+          <rect x="190" y="25" width="4" height="4" opacity=".5"/>
+          <rect x="195" y="39" width="3" height="3" opacity=".35"/>
+        </g>
+        <text x="202" y="26" font-family="Space Grotesk, sans-serif" font-size="12" font-weight="600" fill="#88ACD6">™</text>
+      </svg>
+    </a>
+    <nav class="nav__links">
+      <a href="#work" data-i18n="nav_work">Trabajos</a>
+      <a href="#services" data-i18n="nav_services">Servicios</a>
+    </nav>
+    <div class="nav__right">
+      <button class="langpill" id="langpill" aria-label="Switch language / Cambiar idioma">
+        <span class="langpill__thumb" id="langthumb"></span>
+        <span class="langpill__opt" data-lang="en">EN</span>
+        <span class="langpill__opt" data-lang="es">ES</span>
+      </button>
+      <a class="btn btn--ghost nav__cta wa-link" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.8 2.1 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg>
+        <span data-i18n="cta_chat">Hablemos</span>
+      </a>
+      <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+  
+  <section class="hero" id="top">
+    <video class="hero__bg" autoplay muted loop playsinline poster="assets/videos/bg.mp4.jpg">
+      <source src="assets/videos/bg.mp4" type="video/mp4">
+    </video>
+    <div class="hero__overlay"></div>
+    <div class="hero__grain"></div>
+    <div class="hero__flash" aria-hidden="true"></div>
+    <div class="hero__bar hero__bar--top"></div>
+    <div class="hero__bar hero__bar--bottom"></div>
+    <div class="hero__inner">
+      <div class="hero__content">
+        <p class="hero__kicker" data-i18n="hero_kicker">PRODUCTORA AUDIOVISUAL HÍBRIDA</p>
+        <h1 class="hero__title" data-i18n-html="hero_title">Tu visión.<br>Nuestro escenario.</h1>
+        <p class="hero__sub" data-i18n="hero_sub">Somos un grupo de humanos usando la tecnología y la creatividad para convertir ideas, historias y visiones en piezas listas para pitch, campaña o pantalla. Trabajamos como aliados técnico-creativos de proyectos, agencias y productoras alrededor del mundo.</p>
+        <div class="hero__actions">
+          <a class="btn btn--lime wa-link" href="#" target="_blank" rel="noopener"><span data-i18n="cta_chat">Hablemos</span></a>
+          <a class="btn btn--outline" href="#work"><span data-i18n="cta_work">Ver trabajos</span></a>
+        </div>
+      </div>
+    </div>
+    <button class="hero__flashbtn" id="flashBtn" aria-pressed="true" aria-label="Linterna / Flashlight">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 2h6l-1 6-2 3-2-3-1-6Z"/><path d="M12 11v9"/><path d="M10.5 20h3"/>
+      </svg>
+    </button>
+  </section>
+  
+  <section class="section" id="work">
+    <div class="section__head">
+      <p class="section__kicker" data-i18n="work_kicker">ÚLTIMOS TRABAJOS</p>
+    </div>
+    <div class="workfilter" id="workfilter"></div>
+    <div class="workgrid" id="workgrid"></div>
+    <div class="workgrid__more">
+      <button class="btn btn--outline" id="moreWork"><span data-i18n="work_more">Ver todos los proyectos</span></button>
+    </div>
+  </section>
+  
+  <section class="section" id="services">
+    <div class="section__head">
+      <p class="section__kicker" data-i18n="services_kicker">QUÉ HACEMOS</p>
+      <h2 class="studio-lead" data-i18n="studio_lead">Hacemos producciones nativas de IA y rodajes híbridos que combinan material y referencias reales con flujos de IA generativa. El formato depende de la visión, el presupuesto y el tiempo.</h2>
+    </div>
+    <div class="studio-cols">
+      <article class="studio-col">
+        <div class="studio-col__media"><img src="assets/videos/video19_poster.jpg" alt="Producción con IA" loading="lazy"></div>
+        <div class="studio-col__body">
+          <h3 data-i18n="studio_ai_title">Producción con IA</h3>
+          <p data-i18n="studio_ai_desc">Piezas creadas íntegramente con pipelines de generación. Sin sets, sin crew, sin la logística de un rodaje tradicional. Los tiempos se acortan y el presupuesto rinde más.</p>
+          <p class="studio-col__tags" data-i18n="studio_ai_tags">Cinemáticas · Escenas · Publicidad · Contenido para redes · Recreación histórica</p>
+        </div>
+      </article>
+      <article class="studio-col">
+        <div class="studio-col__media"><img src="assets/videos/video17_thumbnail.jpg" alt="Producción híbrida" loading="lazy"></div>
+        <div class="studio-col__body">
+          <h3 data-i18n="studio_hy_title">Producción híbrida</h3>
+          <p data-i18n="studio_hy_desc">Cine tradicional combinado con pipelines de IA. Algunos proyectos necesitan cámara real, locaciones y luz; la IA expande lo que ese material puede llegar a ser.</p>
+          <p class="studio-col__tags" data-i18n="studio_hy_tags">Trailers · Teasers · Comerciales · Video corporativo · Documental</p>
+        </div>
+      </article>
+    </div>
+    <div class="philo-box">
+      <h3 data-i18n="philo_title">La herramienta la elige el proyecto. El criterio siempre es humano.</h3>
+      <p data-i18n="philo_desc">Cámara real, generación, o las dos combinadas: trabajamos con lo que cada historia necesita, sin casarnos con ninguna plataforma.</p>
+    </div>
+    <div class="svc-list">
+      <article class="svc-item">
+        <span class="svc-item__num">01</span>
+        <div class="svc-item__body">
+          <h3 data-i18n="svc1_title">Preproducción</h3>
+          <p data-i18n="svc1_desc">Storyboards, animatics y previz para planificar teasers, trailers y escenas antes de rodar o generar.</p>
+        </div>
+      </article>
+      <article class="svc-item">
+        <span class="svc-item__num">02</span>
+        <div class="svc-item__body">
+          <h3 data-i18n="svc2_title">Producción</h3>
+          <p data-i18n="svc2_desc">Teasers, trailers y escenas con pipeline híbrido: IA generativa integrada con material real.</p>
+        </div>
+      </article>
+      <article class="svc-item">
+        <span class="svc-item__num">03</span>
+        <div class="svc-item__body">
+          <h3 data-i18n="svc3_title">Postproducción</h3>
+          <p data-i18n="svc3_desc">Edición, motion graphics, subtítulos, locuciones y diseño sonoro para cada pieza.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+  
+  <footer class="footer">
+    <h2 class="footer__title" data-i18n-html="footer_title">¿Tienes un proyecto?<br>Hagamos que se mueva.</h2>
+    <a class="btn btn--lime btn--big wa-link" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.6c-.1.2-.3.3-.1.6.2.3.8 1.3 1.8 2.1 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.2 1.3Z"/></svg>
+      <span data-i18n="cta_chat">Hablemos</span>
+    </a>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <h3 data-i18n="contact1_title">Nuevo proyecto</h3>
+        <p data-i18n="contact1_desc">Contanos qué estás armando y con qué timeline. Te respondemos rápido.</p>
+        <a href="mailto:hola@resuelven.pro">hola@resuelven.pro</a>
+      </div>
+      <div class="contact-item">
+        <h3 data-i18n="contact2_title">Productoras y agencias</h3>
+        <p data-i18n="contact2_desc">Pipeline híbrido para tus teasers, trailers o campañas. Trabajamos como aliados técnico-creativos.</p>
+        <a href="mailto:info@resuelven.pro">info@resuelven.pro</a>
+      </div>
+      <div class="contact-item">
+        <h3 data-i18n="contact3_title">Sumate al equipo</h3>
+        <p data-i18n="contact3_desc">¿Trabajás en la industria audiovisual y querés colaborar con Resuelven?</p>
+        <a href="mailto:team@resuelven.pro">team@resuelven.pro</a>
+      </div>
+    </div>
+    <p class="footer__note" data-i18n="footer_note">© Resuelven. Todos los derechos reservados.</p>
+  </footer>
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox__backdrop"></div>
+    <div class="lightbox__body">
+      <button class="lightbox__close" id="lightboxClose" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <div class="lightbox__media" id="lightboxMedia"></div>
+    </div>
+  </div>
+  <script src="js/main.js"></script>
+</body>
+</html>
