@@ -38,15 +38,15 @@ Para agregar un video nuevo:
 ./agregar-video.sh /ruta/al/video.mp4 nombre-corto
 ```
 
-Comprime, genera la portada y deja la entrada lista para pegar en el array `WORKS` de `js/main.js`.
+Comprime y genera la portada. **Ojo**: el script todavía imprime la entrada con el formato del array `WORKS`, que ya no existe; la ficha va escrita a mano en `index.html` con sus `data-*`.
 
 Regla al comprimir: si el resultado pesa **más** que el original, se deja el original. Pasa cuando la fuente ya venía bien codificada a bitrate bajo.
 
 ## Estructura
 
-- `index.html` — todo el marcado, con atributos `data-i18n` para los textos
+- `index.html` — todo el marcado, con atributos `data-i18n` para los textos. **Las 16 fichas de la galería están escritas acá**, no las genera el JS: cada `.work` lleva en `data-*` su categoría, el medio del lightbox y los créditos (`fmt`, `client`, `country`, `roles`), y los textos en castellano ya vienen puestos para que los lea un buscador. Para agregar una pieza se agrega la ficha a mano.
 - `css/style.css` — minificado en una sola línea por herencia de cuando el sitio se pegaba en Carrd. Ya no hace falta que lo esté.
-- `js/main.js` — diccionarios de idioma, el array `WORKS` con las 16 piezas, filtros, lightbox y el opener
+- `js/main.js` — diccionarios de idioma y de etiquetas (`TYPE_LABELS`, `COUNTRY_LABELS`, `ROLE_LABELS`), traducción de los créditos de cada ficha, filtros, lightbox y el opener
 - `assets/` — videos, posters e imágenes
 - `branding/` — logos en SVG y PNG, y el manual de marca
 - `serve.mjs` — servidor para previsualizar local en el puerto 8791
@@ -59,6 +59,6 @@ El sitio es bilingüe. Todo el copy vive en el objeto `I18N` de `js/main.js`, en
 
 ## Pendientes conocidos
 
-- **SEO**: falta meta description por idioma, Open Graph, `sitemap.xml`, `robots.txt`, datos estructurados y alt text real en la galería. El problema grande (el sitio vivía dentro de un iframe en Carrd) ya está resuelto.
+- **SEO**: hechos en agosto 2026 la meta description por idioma, Open Graph y Twitter card completos (con `card.jpg` propia de 1200x630), canonical, hreflang, `sitemap.xml`, `robots.txt`, y las fichas de la galería servidas en el HTML. Queda pendiente: datos estructurados de organización y portfolio, alt text real en la galería (hoy repite el título), y **la línea de decisión por caso**, que diga en cada ficha qué se filmó y qué se generó. Esa línea la tiene que aportar el dueño, no se puede inferir del repo.
 - `prologue.mp4` pesa 75 MB, por encima de los 50 MB que GitHub recomienda por archivo. Funciona, pero se puede bajar más.
 - El CSS se puede desminificar, ya no hay motivo para tenerlo en una línea.

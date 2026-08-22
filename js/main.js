@@ -3,7 +3,7 @@ const WA_NUMBER = "5493425973885";
 const I18N = {
   en: {
     _title: "resuelven™ · Hybrid Audiovisual Production",
-    _desc: "A hybrid production company: generative AI woven with real footage. Prototyping, teasers, trailers and ads.",
+    _desc: "Hybrid audiovisual production. Teasers, trailers and scenes: real camera, generation, or both combined. The tool follows the project.",
     _wa: "Hey, Resuelven! I'd like to know more.",
     nav_work: "Work",
     nav_services: "Services",
@@ -12,7 +12,7 @@ const I18N = {
     flash_label: "Flashlight",
     hero_kicker: "HYBRID AUDIOVISUAL PRODUCTION",
     hero_title: "Your Vision.<br>Our Venue.",
-    hero_sub: "We're a group of humans using technology and creativity to turn ideas, stories and visions into pieces ready for pitch, campaign or screen. We work as technical-creative allies to projects, agencies and production companies around the world.",
+    hero_sub: "We use creativity, judgment and technology to turn ideas, stories and visions into pieces ready for pitch, campaign or screen. We work as technical-creative allies to projects, agencies and production companies around the world.",
     work_kicker: "LAST WORK",
     work_more: "Show all projects",
     work_less: "Show less",
@@ -23,7 +23,7 @@ const I18N = {
     services_kicker: "WHAT WE DO",
     studio_lead: "We make AI-native productions and hybrid shoots that combine real material and references with generative AI workflows. The format depends on the vision, the budget and the time.",
     studio_ai_title: "AI Production",
-    studio_ai_desc: "Pieces built entirely through generation pipelines. No sets, no crew, none of a traditional shoot's overhead. Timelines shrink and budgets stretch further.",
+    studio_ai_desc: "Pieces built entirely through generation pipelines. It's the right route when the reference doesn't exist, when the idea needs many variants explored before deciding, or when a shoot doesn't fit the timeline.",
     studio_ai_tags: "Cinematics · Scenes · Advertising · Social content · Historical recreation",
     studio_hy_title: "Hybrid Production",
     studio_hy_desc: "Traditional filmmaking combined with AI pipelines. Some projects need real cameras, real locations, real light; AI extends what that footage can become.",
@@ -47,7 +47,7 @@ const I18N = {
   },
   es: {
     _title: "resuelven™ · Productora Audiovisual Híbrida",
-    _desc: "Productora híbrida: IA generativa integrada con material real. Prototipado, teasers, trailers y ads.",
+    _desc: "Productora audiovisual híbrida. Teasers, trailers y escenas: cámara real, generación, o las dos combinadas. La herramienta la elige el proyecto.",
     _wa: "¡Hola, Resuelven! Quiero saber más.",
     nav_work: "Trabajos",
     nav_services: "Servicios",
@@ -56,7 +56,7 @@ const I18N = {
     flash_label: "Linterna",
     hero_kicker: "PRODUCTORA AUDIOVISUAL HÍBRIDA",
     hero_title: "Tu visión.<br>Nuestro escenario.",
-    hero_sub: "Somos un grupo de humanos usando la tecnología y la creatividad para convertir ideas, historias y visiones en piezas listas para pitch, campaña o pantalla. Trabajamos como aliados técnico-creativos de proyectos, agencias y productoras alrededor del mundo.",
+    hero_sub: "Usamos la creatividad, el criterio y la tecnología para convertir ideas, historias y visiones en piezas listas para pitch, campaña o pantalla. Trabajamos como aliados técnico-creativos de proyectos, agencias y productoras alrededor del mundo.",
     work_kicker: "ÚLTIMOS TRABAJOS",
     work_more: "Ver todos los proyectos",
     work_less: "Ver menos",
@@ -67,7 +67,7 @@ const I18N = {
     services_kicker: "QUÉ HACEMOS",
     studio_lead: "Hacemos producciones nativas de IA y rodajes híbridos que combinan material y referencias reales con flujos de IA generativa. El formato depende de la visión, el presupuesto y el tiempo.",
     studio_ai_title: "Producción con IA",
-    studio_ai_desc: "Piezas creadas íntegramente con pipelines de generación. Sin sets, sin crew, sin la logística de un rodaje tradicional. Los tiempos se acortan y el presupuesto rinde más.",
+    studio_ai_desc: "Piezas creadas íntegramente con pipelines de generación. Es el camino cuando el referente no existe, cuando hay que explorar muchas variantes antes de decidir, o cuando el rodaje no es viable en ese timeline.",
     studio_ai_tags: "Cinemáticas · Escenas · Publicidad · Contenido para redes · Recreación histórica",
     studio_hy_title: "Producción híbrida",
     studio_hy_desc: "Cine tradicional combinado con pipelines de IA. Algunos proyectos necesitan cámara real, locaciones y luz; la IA expande lo que ese material puede llegar a ser.",
@@ -80,7 +80,7 @@ const I18N = {
     svc2_desc: "Teasers, trailers y escenas con pipeline híbrido: IA generativa integrada con material real.",
     svc3_title: "Postproducción",
     svc3_desc: "Edición, motion graphics, subtítulos, locuciones y diseño sonoro para cada pieza.",
-    footer_title: "¿Tienes un proyecto?<br>Hagamos que se mueva.",
+    footer_title: "¿Tenés un proyecto?<br>Hagamos que se mueva.",
     contact1_title: "Nuevo proyecto",
     contact1_desc: "Contanos qué estás armando y con qué timeline. Te respondemos rápido.",
     contact2_title: "Productoras y agencias",
@@ -102,45 +102,7 @@ const ROLE_LABELS = {
   en: { guion: "Screenwriting", scriptdev: "Script development", direccion: "Direction", dof: "Cinematography", genanim: "Generative animation", genai: "AI generation", genvideo: "Video generation", genimg: "Image & video generation", edit: "Editing", sound: "Sound design", concept: "Concept development", sboards: "Storyboards", animatics: "Animatics", chardev: "Character visual development", vo: "Voice over", mograph: "Motion graphics", dlock: "Dialogue locking", oneshot: "One-shot direction" },
   es: { guion: "Guion", scriptdev: "Desarrollo de guion", direccion: "Dirección", dof: "Dirección de fotografía", genanim: "Animación generativa", genai: "Generación con IA", genvideo: "Generación de video", genimg: "Generación de imágenes y video", edit: "Montaje", sound: "Diseño sonoro", concept: "Desarrollo de concepto", sboards: "Storyboards", animatics: "Animatics", chardev: "Desarrollo visual de personaje", vo: "Voice over", mograph: "Motion graphics", dlock: "Sincronización de diálogos", oneshot: "Realización one-shot" },
 };
-const drive = (id) => ({ type: "iframe", src: `https://drive.google.com/file/d/${id}/preview` });
-const local = (n, opts = {}) => ({ type: "video", src: `assets/videos/${n}.mp4`, ...opts });
 const CATS_CYCLE = ["ficcion", "animacion", "publicidad"];
-// Metadata real provista por el usuario. Regla: si client === title, se omite (no repetir en la ficha).
-const WORKS = [
-  { ...local("prologue"), thumb: "assets/videos/video14_thumbnail.jpg", cat: "ficcion",
-    title: "Genghis: Birth of an Empire", client: "Authors First", country: "usa", fmt: "teaser", roles: ["dof", "genanim", "edit", "sound"] },
-  { ...local("video17"), thumb: "assets/videos/video17_thumbnail.jpg", cat: "ficcion",
-    title: "Antípodas: Lo Más Lejos Posible", client: null, country: "argentina", fmt: "trailer", roles: ["guion", "direccion", "dof", "genanim", "edit", "sound"] },
-  { ...local("kodex1"), thumb: "assets/videos/video20_thumbnail.jpg", cat: "publicidad",
-    title: "Kodex1", client: null, country: "dubai", fmt: "ad", roles: ["concept", "genai", "oneshot", "mograph", "edit", "sound"] },
-  { ...drive("1FdK5aIOEChy8O3pShALOVH-JVPJBWcua"), thumb: "assets/videos/manual_poster.jpg", cat: "ficcion",
-    title: "Manual para cazar una ballena", client: null, country: "argentina", fmt: "cortometraje", roles: ["scriptdev", "sboards", "animatics", "genanim", "edit", "sound"] },
-  { ...local("video19", { poster: "assets/videos/video19_poster.jpg" }), thumb: "assets/videos/video19_poster.jpg", cat: "animacion",
-    title: "Muterra", client: null, country: "uk", fmt: "herovideo", roles: ["chardev", "dof", "genanim", "edit", "vo", "sound"] },
-  { type: "iframe", src: "https://www.youtube-nocookie.com/embed/7hWI-mV_FtY?rel=0&autoplay=1", thumb: "https://i.ytimg.com/vi/7hWI-mV_FtY/maxresdefault.jpg", cat: "publicidad",
-    title: "CBRE", client: null, country: "canada", fmt: "corporate", roles: ["mograph", "edit"] },
-  { ...local("video12", { poster: "assets/videos/video12_poster.jpg", vertical: true }), thumb: "assets/videos/video12_poster.jpg", cat: "publicidad",
-    title: "Betterwase", client: null, country: "usa", fmt: "ad", roles: ["concept", "guion", "genvideo", "edit", "sound"] },
-  { ...local("video07", { poster: "assets/videos/video07_poster.jpg", vertical: true }), thumb: "assets/videos/video07_poster.jpg", cat: "publicidad",
-    title: "Betterwase", client: null, country: "usa", fmt: "ad", roles: ["concept", "guion", "genvideo", "edit", "sound"] },
-  { ...local("grounding"), thumb: "assets/videos/grounding_poster.jpg", cat: "publicidad",
-    title: "Earthing Harmony", client: null, country: "usa", fmt: "longform", roles: ["genimg", "edit", "sound"] },
-  { ...local("medicare"), thumb: "assets/videos/medicare_poster.jpg", cat: "animacion",
-    title: "Betterwase", client: null, country: "usa", fmt: "animseries", roles: [] },
-  { ...local("bektar"), thumb: "assets/videos/bektar_poster.jpg", cat: "ficcion",
-    title: "Genghis: Birth of an Empire", client: "Authors First", country: "usa", fmt: "pitchscene", roles: ["dof", "genanim", "dlock", "edit", "sound"] },
-  { ...local("dudley"), thumb: "assets/videos/dudley_poster.jpg", cat: "ficcion",
-    title: "Pandora's Star", client: "Authors First", country: "usa", fmt: "pitchscene", roles: ["dof", "genanim", "dlock", "edit", "sound"] },
-  { ...local("video11", { poster: "assets/videos/video11_poster.jpg" }), thumb: "assets/videos/video11_poster.jpg", cat: "publicidad",
-    title: "The Plastic Forming Company", client: null, country: "usa", fmt: "ad", roles: ["concept", "guion", "genanim", "edit", "sound"] },
-  { ...local("video06"), thumb: "assets/videos/video06_thumbnail.jpg", cat: "publicidad",
-    title: "Ahoyskipper", client: null, country: "greece", fmt: "ad", roles: ["dof", "genanim", "edit", "sound"] },
-  { ...local("video10", { poster: "assets/videos/video10_poster.jpg" }), thumb: "assets/videos/video10_poster.jpg", cat: "publicidad",
-    title: "LensCrafters", client: null, country: null, fmt: "ad", roles: ["genanim", "edit", "sound"] },
-  { ...local("video09"), thumb: "assets/videos/video09_thumbnail.jpg", cat: "publicidad",
-    title: "555 Estudio", client: null, country: "argentina", fmt: "promo", roles: ["concept", "genanim", "edit", "sound"] },
-];
-const VISIBLE_COUNT = 8;
 let lang = localStorage.getItem("resuelven_lang") || "es";
 const urlLang = new URLSearchParams(location.search).get("lang");
 if (urlLang === "en" || urlLang === "es") lang = urlLang;
@@ -192,11 +154,12 @@ const moreBtn = document.getElementById("moreWork");
 let activeCat = "all";
 const lightbox = document.getElementById("lightbox");
 const lightboxMedia = document.getElementById("lightboxMedia");
-function openLightbox(w) {
-  if (w.type === "video") {
-    lightboxMedia.innerHTML = `<video src="${w.src}" ${w.poster ? `poster="${w.poster}"` : ""} controls controlsList="nofullscreen" disablePictureInPicture autoplay playsinline></video>`;
+function openLightbox(card) {
+  const d = card.dataset;
+  if (d.media === "video") {
+    lightboxMedia.innerHTML = `<video src="${d.src}" ${d.poster ? `poster="${d.poster}"` : ""} controls controlsList="nofullscreen" disablePictureInPicture autoplay playsinline></video>`;
   } else {
-    lightboxMedia.innerHTML = `<iframe src="${w.src}" allow="autoplay"></iframe>`;
+    lightboxMedia.innerHTML = `<iframe src="${d.src}" allow="autoplay"></iframe>`;
   }
   lightbox.classList.add("open");
 }
@@ -210,36 +173,24 @@ addEventListener("keydown", (e) => { if (e.key === "Escape" && lightbox.classLis
 document.addEventListener("fullscreenchange", () => {
   if (document.fullscreenElement && lightboxMedia.contains(document.fullscreenElement)) document.exitFullscreen();
 });
-function workCaption(w) {
-  const t = w.fmt ? TYPE_LABELS[lang][w.fmt] : "";
-  const c = w.country ? COUNTRY_LABELS[lang][w.country] : "";
-  return [t, w.client, c].filter(Boolean).join(" · ");
+// Las fichas viven en el HTML para que las lean los buscadores; aca solo se traducen
+// los creditos y se cablea el lightbox.
+function workCaption(d) {
+  const t = d.fmt ? TYPE_LABELS[lang][d.fmt] : "";
+  const c = d.country ? COUNTRY_LABELS[lang][d.country] : "";
+  return [t, d.client, c].filter(Boolean).join(" · ");
 }
 function renderWorkCaptions() {
   document.querySelectorAll(".work").forEach((card) => {
-    const w = WORKS[+card.dataset.idx];
-    card.querySelector(".work__meta").textContent = workCaption(w);
-    card.querySelector(".work__roles").textContent = w.roles.map((r) => ROLE_LABELS[lang][r]).join(" · ");
+    const d = card.dataset;
+    card.querySelector(".work__meta").textContent = workCaption(d);
+    card.querySelector(".work__roles").textContent = (d.roles ? d.roles.split(",") : [])
+      .map((r) => ROLE_LABELS[lang][r])
+      .join(" · ");
   });
 }
-WORKS.forEach((w, i) => {
-  const card = document.createElement("div");
-  card.className = "work reveal" + (i >= VISIBLE_COUNT ? " work--hidden" : "");
-  card.dataset.cat = w.cat;
-  card.dataset.idx = i;
-  card.dataset.hiddenByMore = i >= VISIBLE_COUNT ? "true" : "false";
-  card.innerHTML = `
-    <div class="work__media">
-      <img src="${w.thumb}" alt="${w.title}" loading="lazy" onerror="this.style.display='none'">
-      <div class="work__play"><span>▶</span></div>
-    </div>
-    <div class="work__info">
-      <h3 class="work__title">${w.title}</h3>
-      <p class="work__meta"></p>
-      <p class="work__roles"></p>
-    </div>`;
-  card.querySelector(".work__media").addEventListener("click", () => openLightbox(w));
-  grid.appendChild(card);
+grid.querySelectorAll(".work").forEach((card) => {
+  card.querySelector(".work__media").addEventListener("click", () => openLightbox(card));
 });
 renderWorkCaptions();
 function renderFilterPills() {
