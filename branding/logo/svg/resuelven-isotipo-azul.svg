@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 34" role="img" aria-label="resuelven">
+  <title>resuelven</title>
+  <g transform="translate(-150,-16)">
+    <rect x="156" y="22" width="6" height="6" fill="#2D72C8"/>
+    <rect x="156" y="30" width="6" height="6" fill="#2D72C8"/>
+    <rect x="156" y="38" width="6" height="6" fill="#2D72C8"/>
+    <rect x="164" y="22" width="6" height="6" fill="#2D72C8"/>
+    <rect x="172" y="22" width="6" height="6" fill="#2D72C8"/>
+    <rect x="180" y="30" width="6" height="6" fill="#2D72C8"/>
+    <rect x="180" y="38" width="6" height="6" fill="#2D72C8" opacity="0.85"/>
+  </g>
+</svg>

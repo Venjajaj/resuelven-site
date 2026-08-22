@@ -1,0 +1,620 @@
+<meta charset="utf-8">
+<title>Manual de marca resuelven</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+  :root{
+    --ink:#0A0E14;
+    --accent:#2D72C8;
+    --accent-soft:#9CC2ED;
+
+    /* tema claro (por defecto, sin estampar) */
+    --bg:#FFFFFF;
+    --panel:#F4F7FB;
+    --panel-2:#EAF0F8;
+    --line:rgba(10,14,20,0.12);
+    --line-soft:rgba(10,14,20,0.07);
+    --tx:#0A0E14;
+    --tx-dim:#5A6577;
+    --eyebrow:#2D72C8;
+
+    --display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;
+    --body:"Inter",ui-sans-serif,system-ui,sans-serif;
+    --measure:66ch;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0A0E14;
+      --panel:#121826;
+      --panel-2:#182032;
+      --line:rgba(255,255,255,0.12);
+      --line-soft:rgba(255,255,255,0.07);
+      --tx:#F2F5F9;
+      --tx-dim:#97A1B2;
+      --eyebrow:#9CC2ED;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0A0E14;
+    --panel:#121826;
+    --panel-2:#182032;
+    --line:rgba(255,255,255,0.12);
+    --line-soft:rgba(255,255,255,0.07);
+    --tx:#F2F5F9;
+    --tx-dim:#97A1B2;
+    --eyebrow:#9CC2ED;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--tx);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:0 24px 96px;}
+
+  /* ---------- cabecera ---------- */
+  .head{padding:72px 0 48px;border-bottom:1px solid var(--line);}
+  .head__logo{width:min(300px,72vw);height:auto;display:block;margin-bottom:34px;}
+  .head h1{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(30px,5vw,46px);line-height:1.05;letter-spacing:-0.025em;
+    margin:0 0 14px;text-wrap:balance;
+  }
+  .head p{margin:0;color:var(--tx-dim);max-width:var(--measure);font-size:17px;}
+  .head__meta{
+    margin-top:26px;display:flex;flex-wrap:wrap;gap:8px 10px;
+    font-family:var(--display);font-size:12px;font-weight:600;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--tx-dim);
+  }
+  .head__meta span{border:1px solid var(--line);border-radius:999px;padding:5px 12px;}
+
+  /* ---------- secciones ---------- */
+  section{padding:56px 0;border-bottom:1px solid var(--line-soft);}
+  .eyebrow{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--display);font-size:11.5px;font-weight:600;
+    letter-spacing:0.2em;text-transform:uppercase;color:var(--eyebrow);
+    margin:0 0 16px;
+  }
+  /* el motivo de pixeles del logo, usado como marca de seccion */
+  .eyebrow::before{
+    content:"";width:20px;height:6px;flex:none;
+    background:
+      linear-gradient(var(--accent),var(--accent)) 0 0/6px 6px no-repeat,
+      linear-gradient(var(--accent),var(--accent)) 8px 0/6px 6px no-repeat,
+      linear-gradient(var(--accent-soft),var(--accent-soft)) 16px 0/4px 4px no-repeat;
+    opacity:.9;
+  }
+  h2{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(22px,3vw,30px);letter-spacing:-0.02em;line-height:1.15;
+    margin:0 0 14px;text-wrap:balance;
+  }
+  h3{
+    font-family:var(--display);font-weight:600;font-size:16px;
+    letter-spacing:-0.005em;margin:0 0 6px;
+  }
+  p{margin:0 0 14px;max-width:var(--measure);color:var(--tx-dim);}
+  p strong{color:var(--tx);font-weight:600;}
+  section > p:last-child{margin-bottom:0;}
+
+  /* ---------- especimenes de logo ----------
+     el fondo de cada ficha es fijo a proposito: muestra el color real
+     sobre el que va cada version, no el tema de quien lo mira            */
+  .grid{display:grid;gap:16px;margin-top:26px;}
+  .grid--2{grid-template-columns:repeat(auto-fit,minmax(272px,1fr));}
+  .grid--3{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));}
+
+  .spec{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);}
+  .spec__stage{
+    display:grid;place-items:center;padding:34px 26px;min-height:132px;
+  }
+  .spec__stage svg{width:100%;max-width:216px;height:auto;}
+  .stage-dark{background:#0A0E14;}
+  .stage-light{background:#FFFFFF;}
+  .stage-blue{background:#2D72C8;}
+  .stage-photo{
+    background:
+      linear-gradient(135deg,#1b2740 0%,#2f4468 45%,#101722 100%);
+  }
+  .spec__body{padding:15px 18px 18px;border-top:1px solid var(--line);}
+  .spec__body p{margin:0;font-size:13.5px;line-height:1.5;color:var(--tx-dim);max-width:none;}
+  .spec__file{
+    display:block;margin-top:9px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:11.5px;color:var(--tx-dim);opacity:.8;word-break:break-all;
+  }
+
+  /* ---------- area de proteccion ---------- */
+  .clear{
+    margin-top:26px;background:#0A0E14;border:1px solid var(--line);
+    border-radius:14px;padding:34px;display:grid;place-items:center;
+  }
+  .clear__box{position:relative;width:min(420px,100%);}
+  .clear__box svg{width:100%;height:auto;display:block;}
+  .clear__box::before{
+    content:"";position:absolute;inset:0;
+    border:1px dashed rgba(156,194,237,0.55);border-radius:4px;
+  }
+  .clear__cap{
+    margin-top:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:11.5px;color:#9CC2ED;text-align:center;
+  }
+
+  /* ---------- tamano minimo ---------- */
+  .sizes{
+    display:flex;flex-wrap:wrap;align-items:flex-end;gap:34px;
+    margin-top:26px;background:#0A0E14;border:1px solid var(--line);
+    border-radius:14px;padding:30px 34px;
+  }
+  .size__item{text-align:center;}
+  .size__item svg{display:block;height:auto;}
+  .size__lab{
+    margin-top:10px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:11px;color:#97A1B2;
+  }
+  .size__lab b{color:#9CC2ED;font-weight:600;}
+
+  /* ---------- usos incorrectos ---------- */
+  .dont{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);}
+  .dont__stage{
+    position:relative;display:grid;place-items:center;
+    padding:30px 22px;min-height:118px;background:#0A0E14;
+  }
+  .dont__stage svg{width:100%;max-width:170px;height:auto;}
+  .dont__stage::after{
+    content:"";position:absolute;top:10px;right:10px;
+    width:19px;height:19px;border-radius:50%;
+    background:#C8442D linear-gradient(#FFFFFF,#FFFFFF) center/9px 2px no-repeat;
+  }
+  .dont__stage--x::after{background:#C8442D;}
+  .dont__body{padding:13px 16px 16px;border-top:1px solid var(--line);}
+  .dont__body p{margin:0;font-size:13px;color:var(--tx-dim);max-width:none;}
+  .sq-stretch{transform:scaleX(1.34);}
+  .sq-rotate{transform:rotate(-7deg);}
+  .sq-shadow{filter:drop-shadow(0 5px 7px rgba(0,0,0,.85));}
+
+  /* ---------- color ---------- */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:26px;}
+  .sw{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);}
+  .sw__chip{height:86px;}
+  .sw__meta{padding:12px 14px 14px;}
+  .sw__name{font-family:var(--display);font-weight:600;font-size:14px;margin-bottom:3px;}
+  .sw__hex{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+    color:var(--tx-dim);font-variant-numeric:tabular-nums;
+  }
+  .sw__use{margin-top:7px;font-size:12.5px;color:var(--tx-dim);line-height:1.45;}
+
+  /* ---------- tipografia ---------- */
+  .type-row{
+    border:1px solid var(--line);border-radius:14px;background:var(--panel);
+    padding:24px 26px;margin-top:16px;
+  }
+  .type-row__spec{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.4vw,48px);
+    letter-spacing:-0.03em;line-height:1.05;margin-bottom:12px;color:var(--tx);}
+  .type-row--body .type-row__spec{font-family:var(--body);font-weight:400;font-size:clamp(19px,2.6vw,25px);letter-spacing:-0.01em;line-height:1.4;}
+  .type-row__meta{
+    display:flex;flex-wrap:wrap;gap:6px 18px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:var(--tx-dim);
+  }
+
+  /* ---------- archivos ---------- */
+  .files{width:100%;border-collapse:collapse;margin-top:22px;font-size:14px;}
+  .files th,.files td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top;}
+  .files th{
+    font-family:var(--display);font-size:11px;font-weight:600;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--tx-dim);
+    border-bottom-color:var(--line);
+  }
+  .files td:first-child{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;
+    color:var(--tx);white-space:nowrap;
+  }
+  .files td:last-child{color:var(--tx-dim);}
+  .scroll-x{overflow-x:auto;}
+
+  .note{
+    margin-top:26px;border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:0 12px 12px 0;background:var(--panel);padding:18px 22px;
+  }
+  .note h3{margin-bottom:8px;color:var(--tx);}
+  .note p{margin:0;font-size:14.5px;}
+
+  .foot{padding:40px 0 0;color:var(--tx-dim);font-size:13px;}
+
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
+</style>
+
+<!-- geometria del logo, definida una sola vez -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="wm" d="M2.80 46.00V26.16H7.76V28.40H8.48Q8.92 27.20 9.94 26.64Q10.96 26.08 12.32 26.08H14.72V30.56H12.24Q10.32 30.56 9.08 31.58Q7.84 32.60 7.84 34.72V46.00Z M26.38 46.56Q23.42 46.56 21.16 45.30Q18.90 44.04 17.64 41.74Q16.38 39.44 16.38 36.32V35.84Q16.38 32.72 17.62 30.42Q18.86 28.12 21.10 26.86Q23.34 25.60 26.30 25.60Q29.22 25.60 31.38 26.90Q33.54 28.20 34.74 30.50Q35.94 32.80 35.94 35.84V37.56H21.50Q21.58 39.60 23.02 40.88Q24.46 42.16 26.54 42.16Q28.66 42.16 29.66 41.24Q30.66 40.32 31.18 39.20L35.30 41.36Q34.74 42.40 33.68 43.62Q32.62 44.84 30.86 45.70Q29.10 46.56 26.38 46.56ZM21.54 33.80H30.82Q30.66 32.08 29.44 31.04Q28.22 30.00 26.26 30.00Q24.22 30.00 23.02 31.04Q21.82 32.08 21.54 33.80Z M47.36 46.56Q43.48 46.56 41.00 44.88Q38.52 43.20 38.00 40.08L42.64 38.88Q42.92 40.28 43.58 41.08Q44.24 41.88 45.22 42.22Q46.20 42.56 47.36 42.56Q49.12 42.56 49.96 41.94Q50.80 41.32 50.80 40.40Q50.80 39.48 50.00 38.98Q49.20 38.48 47.44 38.16L46.32 37.96Q44.24 37.56 42.52 36.86Q40.80 36.16 39.76 34.92Q38.72 33.68 38.72 31.72Q38.72 28.76 40.88 27.18Q43.04 25.60 46.56 25.60Q49.88 25.60 52.08 27.08Q54.28 28.56 54.96 30.96L50.28 32.40Q49.96 30.88 48.98 30.24Q48.00 29.60 46.56 29.60Q45.12 29.60 44.36 30.10Q43.60 30.60 43.60 31.48Q43.60 32.44 44.40 32.90Q45.20 33.36 46.56 33.60L47.68 33.80Q49.92 34.20 51.74 34.86Q53.56 35.52 54.62 36.74Q55.68 37.96 55.68 40.04Q55.68 43.16 53.42 44.86Q51.16 46.56 47.36 46.56Z M66.34 46.32Q64.02 46.32 62.28 45.26Q60.54 44.20 59.58 42.32Q58.62 40.44 58.62 38.00V26.16H63.66V37.60Q63.66 39.84 64.76 40.96Q65.86 42.08 67.90 42.08Q70.22 42.08 71.50 40.54Q72.78 39.00 72.78 36.24V26.16H77.82V46.00H72.86V43.40H72.14Q71.66 44.40 70.34 45.36Q69.02 46.32 66.34 46.32Z M91.16 46.56Q88.20 46.56 85.94 45.30Q83.68 44.04 82.42 41.74Q81.16 39.44 81.16 36.32V35.84Q81.16 32.72 82.40 30.42Q83.64 28.12 85.88 26.86Q88.12 25.60 91.08 25.60Q94.00 25.60 96.16 26.90Q98.32 28.20 99.52 30.50Q100.72 32.80 100.72 35.84V37.56H86.28Q86.36 39.60 87.80 40.88Q89.24 42.16 91.32 42.16Q93.44 42.16 94.44 41.24Q95.44 40.32 95.96 39.20L100.08 41.36Q99.52 42.40 98.46 43.62Q97.40 44.84 95.64 45.70Q93.88 46.56 91.16 46.56ZM86.32 33.80H95.60Q95.44 32.08 94.22 31.04Q93.00 30.00 91.04 30.00Q89.00 30.00 87.80 31.04Q86.60 32.08 86.32 33.80Z M103.90 46.00V18.00H108.94V46.00Z M117.40 46.00 111.08 26.16H116.44L121.04 42.32H121.76L126.36 26.16H131.72L125.40 46.00Z M142.90 46.56Q139.94 46.56 137.68 45.30Q135.42 44.04 134.16 41.74Q132.90 39.44 132.90 36.32V35.84Q132.90 32.72 134.14 30.42Q135.38 28.12 137.62 26.86Q139.86 25.60 142.82 25.60Q145.74 25.60 147.90 26.90Q150.06 28.20 151.26 30.50Q152.46 32.80 152.46 35.84V37.56H138.02Q138.10 39.60 139.54 40.88Q140.98 42.16 143.06 42.16Q145.18 42.16 146.18 41.24Q147.18 40.32 147.70 39.20L151.82 41.36Q151.26 42.40 150.20 43.62Q149.14 44.84 147.38 45.70Q145.62 46.56 142.90 46.56ZM138.06 33.80H147.34Q147.18 32.08 145.96 31.04Q144.74 30.00 142.78 30.00Q140.74 30.00 139.54 31.04Q138.34 32.08 138.06 33.80Z"/>
+    <path id="tm" d="M205.04 20.26V17.60H205.99L206.52 19.81H206.63L207.16 17.60H208.10V20.26H207.60V18.05H207.49L206.96 20.26H206.18L205.65 18.05H205.54V20.26ZM203.30 20.26V18.05H202.40V17.60H204.68V18.05H203.79V20.26Z"/>
+    <g id="pix">
+      <rect x="156" y="22" width="6" height="6"/><rect x="156" y="30" width="6" height="6"/>
+      <rect x="156" y="38" width="6" height="6"/><rect x="164" y="22" width="6" height="6"/>
+      <rect x="172" y="22" width="6" height="6"/><rect x="180" y="30" width="6" height="6"/>
+      <rect x="180" y="38" width="6" height="6" opacity=".85"/>
+      <rect x="190" y="25" width="4" height="4" opacity=".5"/>
+      <rect x="195" y="39" width="3" height="3" opacity=".35"/>
+    </g>
+    <g id="pixcore">
+      <rect x="156" y="22" width="6" height="6"/><rect x="156" y="30" width="6" height="6"/>
+      <rect x="156" y="38" width="6" height="6"/><rect x="164" y="22" width="6" height="6"/>
+      <rect x="172" y="22" width="6" height="6"/><rect x="180" y="30" width="6" height="6"/>
+      <rect x="180" y="38" width="6" height="6"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header class="head">
+    <svg class="head__logo" viewBox="0 0 230 53" role="img" aria-label="resuelven">
+      <g transform="translate(9.2,-6)">
+        <use href="#wm" fill="var(--tx)"/>
+        <use href="#pix" fill="var(--accent)"/>
+        <use href="#tm" fill="var(--accent)"/>
+      </g>
+    </svg>
+    <h1>Manual de marca</h1>
+    <p>Cómo se usa la identidad de resuelven: qué versión del logo va en cada fondo, cuánto aire necesita, los colores exactos y las tipografías. Si tenés que mandarle el logo a alguien de afuera, todo lo que precisás está acá.</p>
+    <div class="head__meta">
+      <span>Versión 1</span>
+      <span>Agosto 2026</span>
+      <span>resuelven.pro</span>
+    </div>
+  </header>
+
+  <section>
+    <p class="eyebrow">La marca</p>
+    <h2>Una palabra a la que le falta la última letra</h2>
+    <p>El logotipo dice <strong>resuelve</strong>. La <strong>n</strong> que completa la palabra no está escrita: se arma con píxeles, como si se estuviera generando en ese momento. Los dos píxeles sueltos que se desvanecen a la derecha son parte de esa idea, no un adorno.</p>
+    <p>Eso es lo que la marca cuenta sin decirlo: hay algo que se construye con herramientas digitales, pero la palabra sigue siendo humana y legible. Por eso los píxeles nunca reemplazan al resto de las letras, y la palabra nunca se escribe entera con la <strong>n</strong> tipográfica.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Versiones</p>
+    <h2>Cuál usar en cada fondo</h2>
+    <p>Hay cuatro versiones del logo horizontal. La regla es simple: elegí la que tenga contraste real contra el fondo donde va. La versión sobre fondo oscuro es la principal, porque es la del sitio.</p>
+
+    <div class="grid grid--2">
+      <div class="spec">
+        <div class="spec__stage stage-dark">
+          <svg viewBox="0 0 230 53" role="img" aria-label="resuelven sobre fondo oscuro">
+            <g transform="translate(9.2,-6)">
+              <use href="#wm" fill="#FFFFFF"/><use href="#pix" fill="#9CC2ED"/><use href="#tm" fill="#9CC2ED"/>
+            </g>
+          </svg>
+        </div>
+        <div class="spec__body">
+          <h3>Fondo oscuro</h3>
+          <p>La principal. Palabra en blanco, píxeles en azul claro. Es la del sitio y la que va sobre negro, azul noche o video.</p>
+          <span class="spec__file">resuelven-horizontal-fondo-oscuro</span>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec__stage stage-light">
+          <svg viewBox="0 0 230 53" role="img" aria-label="resuelven sobre fondo claro">
+            <g transform="translate(9.2,-6)">
+              <use href="#wm" fill="#0A0E14"/><use href="#pix" fill="#2D72C8"/><use href="#tm" fill="#2D72C8"/>
+            </g>
+          </svg>
+        </div>
+        <div class="spec__body">
+          <h3>Fondo claro</h3>
+          <p>Para blanco, papel y plataformas que muestran el logo en una caja clara. Los píxeles pasan al azul fuerte, que sobre blanco sí se lee.</p>
+          <span class="spec__file">resuelven-horizontal-fondo-claro</span>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec__stage stage-photo">
+          <svg viewBox="0 0 230 53" role="img" aria-label="resuelven en blanco monocromo">
+            <g transform="translate(9.2,-6)">
+              <use href="#wm" fill="#FFFFFF"/><use href="#pix" fill="#FFFFFF"/><use href="#tm" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+        <div class="spec__body">
+          <h3>Mono blanco</h3>
+          <p>Todo blanco, sin azul. Para créditos de video, fotos y cualquier fondo con textura donde el azul se ensucia.</p>
+          <span class="spec__file">resuelven-horizontal-mono-blanco</span>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec__stage stage-light">
+          <svg viewBox="0 0 230 53" role="img" aria-label="resuelven en negro monocromo">
+            <g transform="translate(9.2,-6)">
+              <use href="#wm" fill="#0A0E14"/><use href="#pix" fill="#0A0E14"/><use href="#tm" fill="#0A0E14"/>
+            </g>
+          </svg>
+        </div>
+        <div class="spec__body">
+          <h3>Mono negro</h3>
+          <p>Todo negro. Para impresión a un color, sellos, facturas y documentos en blanco y negro.</p>
+          <span class="spec__file">resuelven-horizontal-mono-negro</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Isotipo</p>
+    <h2>Cuando no entra la palabra</h2>
+    <p>La <strong>n</strong> de píxeles funciona sola cuando el espacio es cuadrado o muy chico: avatar de redes, favicon, ficha de un mercado, marca de agua. En esta versión se usan los siete píxeles que forman la letra y se sacan los dos que se desvanecen, porque a tamaño chico se leen como suciedad.</p>
+
+    <div class="grid grid--3">
+      <div class="spec">
+        <div class="spec__stage stage-blue" style="min-height:150px;">
+          <svg viewBox="0 0 512 512" style="max-width:112px;" role="img" aria-label="isotipo blanco sobre azul">
+            <g transform="translate(-1169.00,-19.00) scale(8.3333)">
+              <use href="#pixcore" fill="#FFFFFF"/>
+            </g>
+          </svg>
+        </div>
+        <div class="spec__body">
+          <h3>Cuadrado azul</h3>
+          <p>La opción por defecto para avatares y fichas.</p>
+          <span class="spec__file">resuelven-cuadrado-azul</span>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec__stage" style="min-height:150px;background:#0A0E14;">
+          <svg viewBox="0 0 512 512" style="max-width:112px;" role="img" aria-label="isotipo azul claro sobre oscuro">
+            <rect width="512" height="512" rx="110" fill="#0A0E14"/>
+            <g transform="translate(-1169.00,-19.00) scale(8.3333)">
+              <use href="#pixcore" fill="#9CC2ED"/>
+            </g>
+          </svg>
+        </div>
+        <div class="spec__body">
+          <h3>Cuadrado oscuro</h3>
+          <p>Cuando el azul pleno choca con el entorno.</p>
+          <span class="spec__file">resuelven-cuadrado-oscuro</span>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec__stage stage-light" style="min-height:150px;">
+          <svg viewBox="0 0 42 34" style="max-width:92px;" role="img" aria-label="isotipo suelto azul">
+            <g transform="translate(-150,-16)">
+              <use href="#pixcore" fill="#2D72C8"/>
+            </g>
+          </svg>
+        </div>
+        <div class="spec__body">
+          <h3>Suelto</h3>
+          <p>Sin caja, para marcas de agua y sellos.</p>
+          <span class="spec__file">resuelven-isotipo-azul</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Aire y tamaño</p>
+    <h2>Cuánto espacio necesita alrededor</h2>
+    <p>La unidad de medida es el píxel del logo. Alrededor del logotipo tiene que quedar libre, como mínimo, <strong>el equivalente a dos píxeles</strong> por cada lado. Nada entra en esa zona: ni texto, ni bordes, ni otro logo.</p>
+
+    <div class="clear">
+      <div class="clear__box">
+        <svg viewBox="0 0 230 53" role="img" aria-label="area de proteccion del logo">
+          <g transform="translate(9.2,-6)">
+            <use href="#wm" fill="#FFFFFF"/><use href="#pix" fill="#9CC2ED"/><use href="#tm" fill="#9CC2ED"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <p class="clear__cap">Los archivos ya vienen con ese margen adentro: la línea punteada es el borde del propio archivo. No lo recortes. Más aire siempre está bien; menos, no.</p>
+
+    <h3 style="margin-top:38px;">Tamaño mínimo</h3>
+    <p>Por debajo de estos tamaños los píxeles se empastan y la palabra deja de leerse. Si el espacio es más chico que el mínimo del logotipo, usá el isotipo.</p>
+    <div class="sizes">
+      <div class="size__item">
+        <svg viewBox="0 0 230 53" width="160" role="img" aria-label="logotipo a 160 pixeles">
+          <g transform="translate(9.2,-6)">
+            <use href="#wm" fill="#FFFFFF"/><use href="#pix" fill="#9CC2ED"/><use href="#tm" fill="#9CC2ED"/>
+          </g>
+        </svg>
+        <div class="size__lab">Logotipo · mínimo <b>160 px</b> de ancho</div>
+      </div>
+      <div class="size__item">
+        <svg viewBox="0 0 42 34" width="24" role="img" aria-label="isotipo a su tamano minimo">
+          <g transform="translate(-150,-16)"><use href="#pixcore" fill="#9CC2ED"/></g>
+        </svg>
+        <div class="size__lab">Isotipo · mínimo <b>24 px</b></div>
+      </div>
+    </div>
+    <p style="margin-top:16px;">En impresión, el logotipo no baja de <strong>35 mm</strong> de ancho.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Usos incorrectos</p>
+    <h2>Lo que rompe la marca</h2>
+    <p>Todos estos casos son el mismo error de fondo: tocar proporciones, colores o efectos que no son parte del logo.</p>
+
+    <div class="grid grid--3" style="margin-top:24px;">
+      <div class="dont">
+        <div class="dont__stage">
+          <svg class="sq-stretch" viewBox="0 0 230 53" aria-hidden="true">
+            <g transform="translate(9.2,-6)"><use href="#wm" fill="#FFFFFF"/><use href="#pix" fill="#9CC2ED"/><use href="#tm" fill="#9CC2ED"/></g>
+          </svg>
+        </div>
+        <div class="dont__body"><p>No deformar. Escalá siempre manteniendo la proporción.</p></div>
+      </div>
+
+      <div class="dont">
+        <div class="dont__stage">
+          <svg viewBox="0 0 230 53" aria-hidden="true">
+            <g transform="translate(9.2,-6)"><use href="#wm" fill="#FFFFFF"/><use href="#pix" fill="#C8442D"/><use href="#tm" fill="#C8442D"/></g>
+          </svg>
+        </div>
+        <div class="dont__body"><p>No cambiar el color de los píxeles. El azul es parte de la marca.</p></div>
+      </div>
+
+      <div class="dont">
+        <div class="dont__stage">
+          <svg class="sq-rotate" viewBox="0 0 230 53" aria-hidden="true">
+            <g transform="translate(9.2,-6)"><use href="#wm" fill="#FFFFFF"/><use href="#pix" fill="#9CC2ED"/><use href="#tm" fill="#9CC2ED"/></g>
+          </svg>
+        </div>
+        <div class="dont__body"><p>No rotar ni inclinar el logo.</p></div>
+      </div>
+
+      <div class="dont">
+        <div class="dont__stage">
+          <svg class="sq-shadow" viewBox="0 0 230 53" aria-hidden="true">
+            <g transform="translate(9.2,-6)"><use href="#wm" fill="#FFFFFF"/><use href="#pix" fill="#9CC2ED"/><use href="#tm" fill="#9CC2ED"/></g>
+          </svg>
+        </div>
+        <div class="dont__body"><p>No agregar sombras, brillos ni contornos.</p></div>
+      </div>
+
+      <div class="dont">
+        <div class="dont__stage" style="background:#3E4C63;">
+          <svg viewBox="0 0 230 53" aria-hidden="true">
+            <g transform="translate(9.2,-6)"><use href="#wm" fill="#0A0E14"/><use href="#pix" fill="#2D72C8"/><use href="#tm" fill="#2D72C8"/></g>
+          </svg>
+        </div>
+        <div class="dont__body"><p>No usar la versión oscura sobre fondos medios. Sin contraste, no hay logo.</p></div>
+      </div>
+
+      <div class="dont">
+        <div class="dont__stage">
+          <svg viewBox="0 0 230 53" aria-hidden="true">
+            <g transform="translate(9.2,-6)">
+              <use href="#wm" fill="#FFFFFF"/>
+              <text x="156" y="46" font-family="Space Grotesk, sans-serif" font-size="40" font-weight="700" fill="#FFFFFF">n</text>
+            </g>
+          </svg>
+        </div>
+        <div class="dont__body"><p>No escribir la <strong>n</strong> con la tipografía. Los píxeles son la marca.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Color</p>
+    <h2>Paleta</h2>
+    <p>El azul es el único color de marca. Los grises no son grises neutros: están corridos hacia el azul para que todo el sistema se sienta de la misma familia.</p>
+
+    <div class="swatches">
+      <div class="sw">
+        <div class="sw__chip" style="background:#2D72C8;"></div>
+        <div class="sw__meta">
+          <div class="sw__name">Azul resuelven</div>
+          <div class="sw__hex">#2D72C8 · RGB 45 114 200</div>
+          <p class="sw__use">Color principal. Botones, píxeles del logo sobre claro, acentos.</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="sw__chip" style="background:#9CC2ED;"></div>
+        <div class="sw__meta">
+          <div class="sw__name">Azul claro</div>
+          <div class="sw__hex">#9CC2ED · RGB 156 194 237</div>
+          <p class="sw__use">Textos chicos y píxeles del logo sobre fondo oscuro, donde el azul pleno no se lee.</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="sw__chip" style="background:#0A0E14;"></div>
+        <div class="sw__meta">
+          <div class="sw__name">Negro tinta</div>
+          <div class="sw__hex">#0A0E14 · RGB 10 14 20</div>
+          <p class="sw__use">Fondo principal de la marca. No es negro puro, tira a azul.</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="sw__chip" style="background:#121826;"></div>
+        <div class="sw__meta">
+          <div class="sw__name">Superficie</div>
+          <div class="sw__hex">#121826 · RGB 18 24 38</div>
+          <p class="sw__use">Tarjetas y bloques que se apoyan sobre el fondo.</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="sw__chip" style="background:#97A1B2;"></div>
+        <div class="sw__meta">
+          <div class="sw__name">Gris texto</div>
+          <div class="sw__hex">#97A1B2 · RGB 151 161 178</div>
+          <p class="sw__use">Texto secundario sobre fondo oscuro.</p>
+        </div>
+      </div>
+      <div class="sw">
+        <div class="sw__chip" style="background:#F2F5F9;"></div>
+        <div class="sw__meta">
+          <div class="sw__name">Blanco hueso</div>
+          <div class="sw__hex">#F2F5F9 · RGB 242 245 249</div>
+          <p class="sw__use">Texto principal sobre fondo oscuro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Tipografía</p>
+    <h2>Dos familias, sin excepciones</h2>
+    <p>Las dos son gratuitas y están en Google Fonts. Si alguien no las tiene, el reemplazo es la tipografía de sistema, nunca otra tipografía decorativa.</p>
+
+    <div class="type-row">
+      <div class="type-row__spec">Space Grotesk</div>
+      <div class="type-row__meta">
+        <span>Títulos, botones, etiquetas</span>
+        <span>500 · 600 · 700</span>
+        <span>Interletrado ajustado en títulos grandes</span>
+      </div>
+    </div>
+
+    <div class="type-row type-row--body">
+      <div class="type-row__spec">Inter, para todo lo que se lee de corrido.</div>
+      <div class="type-row__meta">
+        <span>Textos y párrafos</span>
+        <span>400 · 500 · 600</span>
+        <span>Interlineado 1.6</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Archivos</p>
+    <h2>Qué mandar y cuándo</h2>
+    <p>Los SVG tienen las letras convertidas a curvas, así que se ven igual aunque del otro lado no tengan la tipografía instalada. Mandá SVG siempre que te lo acepten; PNG solo si te piden imagen.</p>
+
+    <div class="scroll-x">
+      <table class="files">
+        <thead>
+          <tr><th>Archivo</th><th>Formato</th><th>Para qué</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>resuelven-horizontal-fondo-oscuro</td><td>SVG · PNG</td><td>Uso general sobre fondos oscuros. Es el logo principal.</td></tr>
+          <tr><td>resuelven-horizontal-fondo-claro</td><td>SVG · PNG</td><td>Documentos en blanco, papel, plataformas con caja clara.</td></tr>
+          <tr><td>resuelven-horizontal-mono-blanco</td><td>SVG · PNG</td><td>Sobre foto o video, y donde el azul no funciona.</td></tr>
+          <tr><td>resuelven-horizontal-mono-negro</td><td>SVG · PNG</td><td>Impresión a un color y documentos administrativos.</td></tr>
+          <tr><td>resuelven-horizontal-sobre-blanco-solido</td><td>PNG</td><td>Cuando el sistema del otro lado no respeta transparencia.</td></tr>
+          <tr><td>resuelven-horizontal-sobre-oscuro-solido</td><td>PNG</td><td>Igual que el anterior, pero con fondo de marca.</td></tr>
+          <tr><td>resuelven-cuadrado-azul</td><td>SVG · PNG</td><td>Avatar de redes, ficha de mercado, app.</td></tr>
+          <tr><td>resuelven-cuadrado-oscuro</td><td>SVG · PNG</td><td>Alternativa del anterior en contextos ya muy azules.</td></tr>
+          <tr><td>resuelven-isotipo-azul / blanco</td><td>SVG</td><td>La n sola, sin caja: marcas de agua y sellos.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <h3>Si te piden el logo para una ficha o un catálogo</h3>
+      <p>Mandá <strong>resuelven-cuadrado-azul</strong> si el espacio es cuadrado, o <strong>resuelven-horizontal-sobre-oscuro-solido</strong> si es apaisado. Las dos tienen fondo propio, así que no dependen de cómo arme la caja la plataforma del otro lado.</p>
+    </div>
+  </section>
+
+  <p class="foot">resuelven™ · Manual de marca versión 1 · agosto 2026</p>
+
+</div>

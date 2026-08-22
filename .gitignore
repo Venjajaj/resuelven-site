@@ -1,0 +1,12 @@
+# tus videos originales sin comprimir, no se publican
+assets/_originales-sin-comprimir/
+
+# restos de la epoca de Carrd, ya no se usan
+carrd-embed*.html
+carrd-embed*.txt
+carrd-iframe.txt
+test-carrd.html
+
+# basura del sistema
+.DS_Store
+branding/*.pdf
