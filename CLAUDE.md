@@ -45,7 +45,7 @@ Regla al comprimir: si el resultado pesa **más** que el original, se deja el or
 ## Estructura
 
 - `index.html` — todo el marcado, con atributos `data-i18n` para los textos. **Las 16 fichas de la galería están escritas acá**, no las genera el JS: cada `.work` lleva en `data-*` su categoría, el medio del lightbox y los créditos (`fmt`, `client`, `country`, `roles`), y los textos en castellano ya vienen puestos para que los lea un buscador. Para agregar una pieza se agrega la ficha a mano.
-- `css/style.css` — minificado en una sola línea por herencia de cuando el sitio se pegaba en Carrd. Ya no hace falta que lo esté.
+- `css/style.css` — hoja formateada en varias líneas. Estuvo minificada en una sola línea por herencia de Carrd hasta agosto de 2026, cuando se desminificó porque cada lectura costaba carísimo.
 - `js/main.js` — diccionarios de idioma y de etiquetas (`TYPE_LABELS`, `COUNTRY_LABELS`, `ROLE_LABELS`), traducción de los créditos de cada ficha, filtros, lightbox y el opener
 - `assets/` — videos, posters e imágenes
 - `branding/` — logos en SVG y PNG, y el manual de marca
@@ -59,6 +59,5 @@ El sitio es bilingüe. Todo el copy vive en el objeto `I18N` de `js/main.js`, en
 
 ## Pendientes conocidos
 
-- **SEO**: hechos en agosto 2026 la meta description por idioma, Open Graph y Twitter card completos (con `card.jpg` propia de 1200x630), canonical, hreflang, `sitemap.xml`, `robots.txt`, y las fichas de la galería servidas en el HTML. Queda pendiente: datos estructurados de organización y portfolio, alt text real en la galería (hoy repite el título), y **la línea de decisión por caso**, que diga en cada ficha qué se filmó y qué se generó. Esa línea la tiene que aportar el dueño, no se puede inferir del repo.
+- **SEO**: hechos en agosto 2026 la meta description por idioma, Open Graph y Twitter card completos (con `card.jpg` propia de 1200x630), canonical, hreflang, `sitemap.xml`, `robots.txt`, las fichas de la galería servidas en el HTML, los **datos estructurados** (un `@graph` de JSON-LD en el `<head>` de `index.html` con Organization, WebSite, WebPage y un ItemList de los 16 trabajos) y el **alt text real** de la galería, escrito mirando cada miniatura en vez de repetir el título. Queda pendiente **la línea de decisión por caso**, que diga en cada ficha qué se filmó y qué se generó. Esa línea la tiene que aportar el dueño, no se puede inferir del repo.
 - `prologue.mp4` pesa 75 MB, por encima de los 50 MB que GitHub recomienda por archivo. Funciona, pero se puede bajar más.
-- El CSS se puede desminificar, ya no hay motivo para tenerlo en una línea.

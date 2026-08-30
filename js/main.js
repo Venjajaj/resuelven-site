@@ -288,6 +288,20 @@ document.querySelectorAll(".svc-item, .work, .contact-item, .section__head").for
   el.classList.add("reveal");
   io.observe(el);
 });
+// los videos de los dos bloques de metodo: no se descargan hasta que entran en pantalla,
+// arrancan solos en silencio y se pausan al salir
+const studioVids = document.querySelectorAll(".studio-col__vid");
+if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const vio = new IntersectionObserver(
+    (entries) => entries.forEach((e) => {
+      const v = e.target;
+      if (e.isIntersecting) { v.play().catch(() => {}); }
+      else if (!v.paused) { v.pause(); }
+    }),
+    { threshold: 0.35 }
+  );
+  studioVids.forEach((v) => vio.observe(v));
+}
 applyTexts();
 (function opener() {
   const el = document.getElementById("opener");
