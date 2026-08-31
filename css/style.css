@@ -546,7 +546,7 @@ body.ready .hero__actions {
 }
 
 .section__head {
-  max-width:760px;
+  max-width:1040px;
   margin-bottom:clamp(36px,5vw,60px);
 }
 
@@ -606,7 +606,7 @@ body.ready .hero__actions {
   font-weight:600;
   line-height:1.18;
   letter-spacing:-0.02em;
-  max-width:960px;
+  max-width:1040px;
 }
 
 .studio-cols {
