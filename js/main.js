@@ -2,8 +2,8 @@
 const WA_NUMBER = "5493425973885";
 const I18N = {
   en: {
-    _title: "resuelven™ · Hybrid Audiovisual Production",
-    _desc: "Hybrid audiovisual production. Teasers, trailers and scenes: real camera, generation, or both combined. The tool follows the project.",
+    _title: "resuelven™ · Digital-native productions and hybrid shoots",
+    _desc: "Audiovisual production company. We develop digital-native productions and hybrid shoots: teasers, trailers and scenes for film, campaign and pitch.",
     _wa: "Hey, Resuelven! I'd like to know more.",
     nav_work: "Work",
     nav_services: "Services",
@@ -33,7 +33,7 @@ const I18N = {
     svc2_title: "Production",
     svc2_desc: "Teasers, trailers and scenes with a hybrid pipeline: generative AI woven into real footage.",
     svc3_title: "Post-production",
-    svc3_desc: "Editing, motion graphics, captions, voiceover and sound design for every piece.",
+    svc3_desc: "Editing, color grading, motion graphics, captions, voiceover and sound design for every piece.",
     footer_title: "Got a project?<br>Let's make it move.",
     contact1_title: "New project",
     contact1_desc: "Tell us what you're making and your timeline. We reply fast.",
@@ -44,8 +44,8 @@ const I18N = {
     footer_note: "© Resuelven. All rights reserved.",
   },
   es: {
-    _title: "resuelven™ · Productora Audiovisual Híbrida",
-    _desc: "Productora audiovisual híbrida. Teasers, trailers y escenas: cámara real, generación, o las dos combinadas. La herramienta la elige el proyecto.",
+    _title: "resuelven™ · Producciones nativas digitales y rodajes híbridos",
+    _desc: "Productora audiovisual. Desarrollamos producciones nativas digitales y rodajes híbridos: teasers, trailers y escenas para cine, campaña y pitch.",
     _wa: "¡Hola, Resuelven! Quiero saber más.",
     nav_work: "Trabajos",
     nav_services: "Servicios",
@@ -75,7 +75,7 @@ const I18N = {
     svc2_title: "Producción",
     svc2_desc: "Teasers, trailers y escenas con pipeline híbrido: IA generativa integrada con material real.",
     svc3_title: "Postproducción",
-    svc3_desc: "Edición, motion graphics, subtítulos, locuciones y diseño sonoro para cada pieza.",
+    svc3_desc: "Edición, corrección de color, motion graphics, subtítulos, locuciones y diseño sonoro para cada pieza.",
     footer_title: "¿Tenés un proyecto?<br>Hagamos que se mueva.",
     contact1_title: "Nuevo proyecto",
     contact1_desc: "Contanos qué estás armando y con qué timeline. Te respondemos rápido.",
