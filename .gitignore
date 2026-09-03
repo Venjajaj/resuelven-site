@@ -10,3 +10,6 @@ test-carrd.html
 # basura del sistema
 .DS_Store
 branding/*.pdf
+
+# PDFs generados desde los HTML, se regeneran con Chrome headless
+branding/*.pdf
