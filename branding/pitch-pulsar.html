@@ -1,0 +1,159 @@
+<meta charset="utf-8">
+<title>Pitch de mesa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+  :root{
+    --azul:#2D72C8; --azul-claro:#9CC2ED;
+    --bg:#FFFFFF; --panel:#F4F7FB; --linea:rgba(10,14,20,.12);
+    --tx:#0A0E14; --tx2:#59647A;
+    --display:"Space Grotesk",system-ui,sans-serif;
+    --body:"Inter",system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#0A0E14; --panel:#141B29; --linea:rgba(255,255,255,.13);
+      --tx:#F2F5F9; --tx2:#97A1B2; --azul:#9CC2ED;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0A0E14; --panel:#141B29; --linea:rgba(255,255,255,.13);
+    --tx:#F2F5F9; --tx2:#97A1B2; --azul:#9CC2ED;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--tx);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:640px;margin:0 auto;padding:26px 20px 70px;}
+
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(24px,6vw,32px);letter-spacing:-.02em;line-height:1.1;}
+  .intro{margin-top:8px;color:var(--tx2);font-size:15px;}
+
+  .reloj{
+    margin-top:20px;border:1px solid var(--linea);border-radius:12px;overflow:hidden;
+  }
+  .reloj__f{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:11px 14px;border-bottom:1px solid var(--linea);align-items:start;}
+  .reloj__f:last-child{border-bottom:0;}
+  .reloj__t{font-family:var(--display);font-weight:700;font-size:13px;color:var(--azul);padding-top:1px;}
+  .reloj__d{font-size:14px;line-height:1.45;}
+  .reloj__d b{font-weight:600;}
+  .reloj__d span{display:block;color:var(--tx2);font-size:13px;margin-top:2px;}
+
+  h2{
+    font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.01em;
+    margin:34px 0 10px;padding-top:20px;border-top:2px solid var(--tx);
+  }
+  h3{font-family:var(--display);font-weight:600;font-size:15px;margin:20px 0 7px;}
+  .quien{font-size:13px;color:var(--azul);font-weight:600;margin-bottom:8px;
+    font-family:var(--display);letter-spacing:.06em;text-transform:uppercase;}
+
+  .guion{
+    background:var(--panel);border-left:3px solid var(--azul);border-radius:0 12px 12px 0;
+    padding:15px 17px;margin:10px 0 6px;font-size:15.5px;line-height:1.62;
+  }
+  .guion p+p{margin-top:11px;}
+  .guion b{font-weight:600;}
+
+  ul{margin:8px 0 0 19px;}
+  li{margin-bottom:7px;font-size:15px;}
+  li b{font-weight:600;}
+  p.n{color:var(--tx2);font-size:14px;margin-top:9px;}
+
+  .alerta{
+    margin-top:12px;border:1px solid var(--linea);border-radius:12px;
+    padding:13px 16px;background:var(--panel);font-size:14.5px;
+  }
+  .alerta b{font-weight:600;}
+
+  .frase{
+    font-family:var(--display);font-weight:600;font-size:17px;line-height:1.35;
+    letter-spacing:-.01em;margin:12px 0;
+  }
+</style>
+
+<div class="wrap">
+
+  <h1>Pitch de mesa</h1>
+  <p class="intro">PULSAR Santa Fe, 2 al 5 de septiembre. Reuniones de diez minutos, mesas numeradas.</p>
+
+  <div class="reloj">
+    <div class="reloj__f"><div class="reloj__t">0 a 1</div><div class="reloj__d"><b>Quién sos.</b><span>El arranque de abajo, elegido según con quién te toque.</span></div></div>
+    <div class="reloj__f"><div class="reloj__t">1 a 3</div><div class="reloj__d"><b>Mostrás el test híbrido.</b><span>Treinta segundos. Explica solo lo que no se puede explicar hablando.</span></div></div>
+    <div class="reloj__f"><div class="reloj__t">3 a 7</div><div class="reloj__d"><b>Preguntás vos.</b><span>La parte más importante. Si hablás vos todo el tiempo, no te vas a acordar de nada de ellos.</span></div></div>
+    <div class="reloj__f"><div class="reloj__t">7 a 9</div><div class="reloj__d"><b>Conectás con algo suyo.</b><span>Recién acá contás la pieza que le sirve a lo que te contaron.</span></div></div>
+    <div class="reloj__f"><div class="reloj__t">9 a 10</div><div class="reloj__d"><b>Próximo paso y tarjeta.</b><span>Nunca te vayas sin acordar qué pasa después.</span></div></div>
+  </div>
+
+  <div class="alerta">
+    <b>La regla que lo ordena todo:</b> el objetivo no es cerrar nada, es conseguir la segunda conversación. Lo dice hasta la guía del American Film Market. Si en tres días juntás seis personas a las que escribirle en octubre con un motivo concreto, el mercado te salió bien.
+  </div>
+
+  <h2>El arranque</h2>
+  <p class="n">Sesenta segundos. No lo leas, decilo. Lo único que tiene que salir igual siempre es la primera frase y el cierre.</p>
+
+  <div class="quien">Si trabaja con IA</div>
+  <div class="guion">
+    <p>Somos Resuelven, una productora de Santa Fe. Hacemos <b>producción nativa digital</b> y <b>rodaje híbrido</b>.</p>
+    <p>En híbrido filmamos y después extendemos ese material con VFX y generación. En nativo digital construimos la pieza entera, que es el camino cuando no hay nada que filmar: una época sin registro, un mundo que todavía está solo en el guion.</p>
+    <p>Diez años de realización, los últimos cuatro armando estos pipelines. Entregamos para clientes en seis países.</p>
+  </div>
+
+  <div class="quien">Si no trabaja con IA</div>
+  <div class="guion">
+    <p>Somos Resuelven, una productora de Santa Fe. Trabajamos como aliados de otras productoras y agencias: teasers, trailers y escenas.</p>
+    <p>Filmamos lo que hay que filmar, y después extendemos ese material hasta donde el presupuesto no llegaba. <b>Otra escala, otra época, otro mundo.</b> Hace que un rodaje chico sostenga una historia grande.</p>
+    <p>Ya lo entregamos para clientes en seis países, y con un corto propio salimos terceros en un concurso internacional.</p>
+  </div>
+
+  <p class="n">Fijate que en la segunda no aparece la palabra IA hasta que te la preguntan. No es esconderla, es que a esa persona le interesa el problema de producción, no la herramienta.</p>
+
+  <h2>Para el pasillo</h2>
+  <p class="n">Diez segundos, parado, con un café en la mano. Agustín dijo que ahí es donde se arman los negocios de verdad.</p>
+  <p class="frase">Somos una productora de Santa Fe. Hacemos que un rodaje chico parezca grande.</p>
+  <p class="n">Y te quedás callado. Si le interesa, te pregunta, y ahí contás.</p>
+
+  <h2>Qué mostrás</h2>
+  <ul>
+    <li><b>El test híbrido, treinta segundos.</b> Es lo mejor que tenés: se ve el plano filmado y después el mismo plano convertido. Contesta solo la pregunta de qué significa híbrido.</li>
+    <li><b>Una pieza más, elegida después de escucharlos.</b> Si hacen publicidad, Kodex1. Si hacen ficción, Genghis. Si hablaron de algo histórico, contales el corto.</li>
+  </ul>
+  <div class="alerta">
+    <b>Descargá todo en el teléfono antes de salir.</b> El wifi de los eventos siempre falla y no querés estar esperando que cargue un video con alguien mirándote. Que no dependa de resuelven.pro.
+  </div>
+
+  <h2>Qué preguntás</h2>
+  <p class="n">Esta es la parte que casi todos se saltean, y es la que hace que la reunión sirva.</p>
+  <ul>
+    <li>¿En qué están trabajando ahora?</li>
+    <li>¿Qué tienen en desarrollo para el año que viene?</li>
+    <li>¿Cómo resuelven hoy las escenas que no entran en el presupuesto?</li>
+    <li>¿Con qué se les complica más, el tiempo o la plata?</li>
+    <li>¿Qué tendría que pasar para que trabajemos juntos?</li>
+  </ul>
+  <p class="n">Anotá las respuestas apenas te levantás de la mesa. Al cuarto día no te vas a acordar de quién dijo qué.</p>
+
+  <h2>El cierre</h2>
+  <div class="guion">
+    <p>Te dejo la tarjeta. ¿Te parece si te escribo la semana que viene y te mando <b>[algo concreto de lo que hablaron]</b>?</p>
+  </div>
+  <p class="n">Ese algo concreto es lo que hace que el mail no se borre: una referencia, un presupuesto estimado, una prueba de algo que mencionaron. Si no se te ocurre nada, mandá el link al corto.</p>
+
+  <h2>Si preguntan por IA</h2>
+  <ul>
+    <li><b>¿Derechos de autor?</b> Trabajamos con herramientas comerciales licenciadas y todo pasa por aprobación humana antes de entregar.</li>
+    <li><b>¿Quién aprueba?</b> Nosotros, siempre. La IA genera opciones, la decisión creativa y la aprobación final las toma una persona del equipo.</li>
+    <li><b>¿Tienen trazabilidad formal?</b> Todavía no, como los estudios grandes. Priorizamos velocidad y calidad para proyectos chicos y medianos, y seguimos de cerca hacia dónde va la regulación.</li>
+  </ul>
+
+  <h2>Si preguntan por la película</h2>
+  <p class="n">Van a preguntar, porque el corto está en el catálogo. Tres respuestas, sin inventar números.</p>
+  <ul>
+    <li><b>Qué es:</b> el largo de <i>Manual para cazar una ballena</i>, que queremos rodar de forma híbrida con actores reales.</li>
+    <li><b>Qué buscamos:</b> financiación para desarrollo. Terminar el guion y hacer la previz del rodaje híbrido.</li>
+    <li><b>Qué hay hecho:</b> el corto, terminado, tercer puesto en un concurso internacional. Se puede ver.</li>
+  </ul>
+  <div class="alerta">
+    <b>No inventes presupuesto ni cronograma.</b> "Estamos en desarrollo, eso es justamente lo que venimos a construir" es una respuesta buena y honesta. Un número inventado en un mercado chico se paga caro.
+  </div>
+
+</div>
