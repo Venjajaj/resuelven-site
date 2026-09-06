@@ -930,11 +930,17 @@ body.ready .hero__actions {
   line-height:1;
 }
 
+.svc-item__body {
+  display:grid;
+  grid-template-columns:minmax(220px,320px) 1fr;
+  gap:clamp(20px,4vw,56px);
+  align-items:start;
+}
+
 .svc-item__body h3 {
   font-family:var(--font-display);
   font-size:clamp(22px,3vw,30px);
   font-weight:700;
-  margin-bottom:10px;
   letter-spacing:-0.01em;
 }
 
@@ -942,6 +948,7 @@ body.ready .hero__actions {
   color:var(--muted);
   font-size:16px;
   max-width:640px;
+  padding-top:6px;
 }
 
 .footer {
@@ -1103,6 +1110,13 @@ body.ready .hero__actions {
   }
   .studio-cols {
     grid-template-columns:1fr;
+  }
+  .svc-item__body {
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  .svc-item__body p {
+    padding-top:0;
   }
 }
 
