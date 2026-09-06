@@ -38,7 +38,16 @@ Para agregar un video nuevo:
 ./agregar-video.sh /ruta/al/video.mp4 nombre-corto
 ```
 
-Comprime y genera la portada. **Ojo**: el script todavía imprime la entrada con el formato del array `WORKS`, que ya no existe; la ficha va escrita a mano en `index.html` con sus `data-*`.
+Comprime y genera la portada. **Ojo**: el script todavía imprime la entrada con el formato del array `WORKS`, que ya no existe; ignorá esa salida.
+
+Después de correrlo, la ficha se escribe a mano en `index.html`, y hay que tocar **cuatro cosas** o el sitio queda inconsistente:
+
+1. **La ficha** en `#workgrid`, copiando una existente. Los `data-*` mandan: `data-cat` (ficcion/animacion/publicidad), `data-media`, `data-src`, `data-fmt`, `data-client` (se omite si es igual al título), `data-country` (se omite si no aplica) y `data-roles` separados por coma.
+2. **Las banderas de visibilidad**: solo las primeras ocho llevan `data-hidden-by-more="false"` y no llevan la clase `work--hidden`; el resto al revés. Si agregás una arriba, hay que recalcular todas.
+3. **El JSON-LD** del `<head>`: sumar el `ListItem`, renumerar todas las `position` y actualizar `numberOfItems`.
+4. **Las etiquetas nuevas** en `TYPE_LABELS`, `COUNTRY_LABELS` o `ROLE_LABELS` de `js/main.js`, en inglés y castellano. Si falta una, el crédito sale como `undefined`.
+
+El texto alternativo de la portada se escribe **mirando el fotograma**, describiendo lo que se ve, no repitiendo el título.
 
 Regla al comprimir: si el resultado pesa **más** que el original, se deja el original. Pasa cuando la fuente ya venía bien codificada a bitrate bajo.
 
