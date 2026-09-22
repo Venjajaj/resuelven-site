@@ -134,6 +134,7 @@ function setLang(next, animate = true) {
   if (next === lang) return;
   lang = next;
   localStorage.setItem("resuelven_lang", lang);
+  window.medir?.("idioma", { a: lang });
   if (!animate) { applyTexts(); return; }
   document.body.classList.add("lang-out");
   setTimeout(() => {
@@ -158,6 +159,7 @@ function openLightbox(card) {
     lightboxMedia.innerHTML = `<iframe src="${d.src}" allow="autoplay"></iframe>`;
   }
   lightbox.classList.add("open");
+  window.medir?.("trabajo_abierto", { trabajo: card.querySelector(".work__title")?.textContent.trim() || d.src });
 }
 function closeLightbox() {
   lightbox.classList.remove("open");

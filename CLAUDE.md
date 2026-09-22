@@ -66,7 +66,34 @@ El sitio es bilingüe. Todo el copy vive en el objeto `I18N` de `js/main.js`, en
 
 **Nada de guiones largos en el copy.** Coma o punto y coma en su lugar. Es una preferencia explícita del dueño y aplica a todo el texto visible.
 
+## Medición
+
+Dos herramientas gratuitas, cada una para una pregunta distinta. Las dos se prenden pegando su ID en el objeto `MEDICION` de `js/analytics.js`. **Con los IDs vacíos no se carga ni se envía nada**, así que el archivo puede estar publicado sin medir.
+
+- **GA4** contesta de dónde viene la gente y si el reach de LinkedIn funciona.
+- **Clarity** graba las sesiones para ver qué miraron y dónde se fueron.
+
+Eventos propios que ya están cableados:
+
+| evento | dato | dónde se dispara |
+|---|---|---|
+| `trabajo_abierto` | nombre del trabajo | `openLightbox()` en `js/main.js` |
+| `contacto` | `nav`, `hero` o `cierre` | clic en cualquier `.wa-link` |
+| `mail` | la dirección | clic en cualquier `mailto:` |
+| `idioma` | a qué idioma cambió | `setLang()` en `js/main.js` |
+
+Todos pasan por `window.medir(evento, datos)`, que vive en `analytics.js` y no rompe si no hay nada configurado. Para sumar un evento nuevo alcanza con llamar `window.medir?.("nombre", { dato })` donde haga falta.
+
+**Links para prospectos de LinkedIn.** El nombre del prospecto viaja en `utm_campaign`, en minúscula y con guiones:
+
+```
+https://resuelven.pro/?utm_source=linkedin&utm_medium=dm&utm_campaign=nombre-del-estudio
+```
+
+Se guarda en `sessionStorage` apenas entra, viaja en todos los eventos y además queda como etiqueta de Clarity, así se pueden filtrar las grabaciones de una persona concreta.
+
 ## Pendientes conocidos
 
 - **SEO**: hechos en agosto 2026 la meta description por idioma, Open Graph y Twitter card completos (con `card.jpg` propia de 1200x630), canonical, hreflang, `sitemap.xml`, `robots.txt`, las fichas de la galería servidas en el HTML, los **datos estructurados** (un `@graph` de JSON-LD en el `<head>` de `index.html` con Organization, WebSite, WebPage y un ItemList de los 15 trabajos) y el **alt text real** de la galería, escrito mirando cada miniatura en vez de repetir el título. Queda pendiente **la línea de decisión por caso**, que diga en cada ficha qué se filmó y qué se generó. Esa línea la tiene que aportar el dueño, no se puede inferir del repo.
 - `prologue.mp4` pesa 75 MB, por encima de los 50 MB que GitHub recomienda por archivo. Funciona, pero se puede bajar más.
+- **Banner de consentimiento**: GA4 y Clarity usan cookies no esenciales, así que hace falta uno para los visitantes europeos. No está puesto. Mientras los IDs de `analytics.js` estén vacíos no se envía nada y el tema no corre.
