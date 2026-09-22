@@ -7,7 +7,7 @@
 
 const MEDICION = {
   ga4: "G-L59FC9F6LC",  // el de Google Analytics, con forma G-XXXXXXXXXX
-  clarity: "",  // el del proyecto de Clarity, diez caracteres
+  clarity: "yme9riu42q",  // el del proyecto de Clarity, diez caracteres
 };
 
 // El nombre del prospecto viaja en utm_campaign, por ejemplo
