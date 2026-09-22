@@ -6,7 +6,7 @@
 // Para prender la medicion se pegan los IDs aca y se publica.
 
 const MEDICION = {
-  ga4: "",      // el de Google Analytics, con forma G-XXXXXXXXXX
+  ga4: "G-L59FC9F6LC",  // el de Google Analytics, con forma G-XXXXXXXXXX
   clarity: "",  // el del proyecto de Clarity, diez caracteres
 };
 
