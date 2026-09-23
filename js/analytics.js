@@ -10,17 +10,30 @@ const MEDICION = {
   clarity: "yme9riu42q",  // el del proyecto de Clarity, diez caracteres
 };
 
-// El nombre del prospecto viaja en utm_campaign, por ejemplo
-// resuelven.pro/?utm_source=linkedin&utm_medium=dm&utm_campaign=bordo-films
+// El prospecto se identifica con un codigo corto en `r`, por ejemplo
+// resuelven.pro/?r=tr01
+// Se usa un codigo y no el nombre porque el destinatario ve la URL: encontrarse
+// el propio nombre ahi adentro se lee como que lo estan siguiendo. La tabla de
+// que codigo es cada persona la tiene el dueño, no el sitio.
+// Tambien se acepta utm_campaign para los links viejos y para campanas de verdad.
 // Se guarda apenas entra porque el parametro desaparece si el visitante navega.
 function prospecto() {
-  const enURL = new URLSearchParams(location.search).get("utm_campaign");
+  const q = new URLSearchParams(location.search);
+  const enURL = q.get("r") || q.get("utm_campaign");
   try {
     if (enURL) { sessionStorage.setItem("resuelven_prospecto", enURL); return enURL; }
     return sessionStorage.getItem("resuelven_prospecto") || "";
   } catch (e) {
     return enURL || "";
   }
+}
+
+// `r` viene solo de mensajes de LinkedIn, asi que se le arma a mano la atribucion
+// que GA4 habria sacado sola de los utm_.
+function atribucion() {
+  const codigo = new URLSearchParams(location.search).get("r");
+  if (!codigo) return {};
+  return { campaign_source: "linkedin", campaign_medium: "dm", campaign_name: codigo };
 }
 
 function cargarGA4(id) {
@@ -31,7 +44,7 @@ function cargarGA4(id) {
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { window.dataLayer.push(arguments); };
   gtag("js", new Date());
-  gtag("config", id);
+  gtag("config", id, atribucion());
 }
 
 function cargarClarity(id) {
