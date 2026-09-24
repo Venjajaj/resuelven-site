@@ -350,7 +350,7 @@ body.ready .hero__bar {
 
 .hero__flashbtn {
   position:absolute;
-  z-index:5;
+  z-index:6;
   bottom:62px;
   right:var(--pad);
   display:inline-grid;
@@ -378,7 +378,9 @@ body.ready .hero__bar {
 
 .hero__content {
   position:relative;
-  z-index:3;
+  /* Por encima de .hero__flash: la linterna oscurece el video, nunca el texto.
+     Antes estaba en 3 y el final del titulo y de la bajada se apagaban. */
+  z-index:5;
   max-width:1120px;
 }
 
