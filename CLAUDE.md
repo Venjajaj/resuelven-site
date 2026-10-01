@@ -51,6 +51,22 @@ El texto alternativo de la portada se escribe **mirando el fotograma**, describi
 
 Regla al comprimir: si el resultado pesa **más** que el original, se deja el original. Pasa cuando la fuente ya venía bien codificada a bitrate bajo.
 
+## Archivo privado
+
+`resuelven.pro/archivo/` es una página que no está linkeada ni indexada. Muestra arriba los trabajos que no pueden ser públicos y abajo toda la galería pública, que trae sola de `index.html`.
+
+**El repo es público**: todo lo que entra a `assets/` lo puede bajar cualquiera aunque no esté linkeado. Por eso los trabajos privados se suben cifrados (AES-256-GCM) a `archivo/m/`, con nombres que no dicen nada. La clave viaja en el fragmento del link (`resuelven.pro/archivo/#clave`), que el navegador nunca manda al servidor, y la página la saca de la barra antes de que cargue la medición. Sin la clave, la página muestra solo lo público.
+
+Las fuentes sin cifrar, la lista de trabajos (`trabajos.json`) y la clave (`clave.txt`) viven en `archivo/_privado/`, que está en `.gitignore`. **Si se pierde `clave.txt`, el link deja de andar** y hay que cifrar todo de nuevo con una clave nueva.
+
+Para sumar un trabajo privado: copiar el video y su portada a `archivo/_privado/`, agregarlo a `trabajos.json` y correr:
+
+```bash
+node archivo/cifrar.mjs
+```
+
+Cifra solo lo nuevo, borra lo que ya no se usa e imprime el link para mandar. Los videos privados conviene dejarlos debajo de 50 MB: se descargan enteros antes de reproducirse.
+
 ## Estructura
 
 - `index.html` — todo el marcado, con atributos `data-i18n` para los textos. **Las 15 fichas de la galería están escritas acá**, no las genera el JS: cada `.work` lleva en `data-*` su categoría, el medio del lightbox y los créditos (`fmt`, `client`, `country`, `roles`), y los textos en castellano ya vienen puestos para que los lea un buscador. Para agregar una pieza se agrega la ficha a mano.

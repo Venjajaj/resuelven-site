@@ -13,3 +13,6 @@ branding/*.pdf
 
 # PDFs generados desde los HTML, se regeneran con Chrome headless
 branding/*.pdf
+
+# fuentes sin cifrar y la clave del archivo privado: nunca al repo
+archivo/_privado/
