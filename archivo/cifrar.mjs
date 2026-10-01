@@ -30,12 +30,19 @@ const keyText = (await readFile(keyFile, "utf8")).trim();
 const key = Buffer.from(keyText, "base64url");
 if (key.length !== 32) throw new Error("clave.txt no tiene una clave valida");
 
-const cifrar = (buf) => {
+// aad ata cada pedazo a su lugar: no se puede cambiar de orden ni mezclar entre videos
+const cifrar = (buf, aad) => {
   const iv = randomBytes(12), c = createCipheriv("aes-256-gcm", key, iv);
+  if (aad) c.setAAD(Buffer.from(aad));
   return Buffer.concat([iv, c.update(buf), c.final(), c.getAuthTag()]);
 };
 // el nombre sale del contenido: mismo archivo, mismo nombre, y no se vuelve a subir
-const nombre = (buf) => createHmac("sha256", key).update(createHash("sha256").update(buf).digest()).digest("hex").slice(0, 24);
+const nombre = (buf, ver = "") => createHmac("sha256", key).update(ver).update(createHash("sha256").update(buf).digest()).digest("hex").slice(0, 24);
+
+// Los videos van en pedazos de 1 MB, cada uno en su archivo: el reproductor pide solo
+// los que necesita y el video arranca enseguida, sin bajarse entero.
+const PEDAZO = 1048576;
+const pedazo = (id, n) => `${id}-${String(n).padStart(3, "0")}.bin`;
 
 const { trabajos } = JSON.parse(await readFile(join(priv, "trabajos.json"), "utf8"));
 const usados = new Set(["indice.bin"]);
@@ -43,18 +50,22 @@ const indice = [];
 
 for (const t of trabajos) {
   const item = { cat: t.cat, titulo: t.titulo, meta: t.meta || "", roles: t.roles || "", alt: t.alt || "" };
-  for (const campo of ["video", "poster"]) {
-    const plano = await readFile(join(priv, t[campo]));
-    const id = nombre(plano), dest = join(out, id + ".bin");
-    if (!existsSync(dest)) {
-      await writeFile(dest, cifrar(plano));
-      console.log(`cifrado ${t[campo]} -> m/${id}.bin`);
-    }
-    const peso = (await stat(dest)).size;
-    if (peso > 95 * 1048576) console.warn(`OJO: ${t[campo]} pesa ${(peso / 1048576).toFixed(0)} MB, GitHub no acepta archivos de mas de 100 MB`);
-    item[campo] = id; item[campo + "Bytes"] = peso;
-    usados.add(id + ".bin");
+
+  const poster = await readFile(join(priv, t.poster));
+  const pid = nombre(poster), pdest = join(out, pid + ".bin");
+  if (!existsSync(pdest)) { await writeFile(pdest, cifrar(poster)); console.log(`cifrado ${t.poster}`); }
+  item.poster = pid; item.posterBytes = (await stat(pdest)).size;
+  usados.add(pid + ".bin");
+
+  const video = await readFile(join(priv, t.video));
+  const vid = nombre(video, "v2"), n = Math.ceil(video.length / PEDAZO);
+  for (let i = 0; i < n; i++) {
+    const f = pedazo(vid, i);
+    usados.add(f);
+    if (!existsSync(join(out, f))) await writeFile(join(out, f), cifrar(video.subarray(i * PEDAZO, (i + 1) * PEDAZO), `${vid}:${i}`));
   }
+  console.log(`${t.video}: ${n} pedazos`);
+  Object.assign(item, { video: vid, videoSize: video.length, chunk: PEDAZO, chunks: n });
   indice.push(item);
 }
 

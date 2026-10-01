@@ -65,7 +65,7 @@ Para sumar un trabajo privado: copiar el video y su portada a `archivo/_privado/
 node archivo/cifrar.mjs
 ```
 
-Cifra solo lo nuevo, borra lo que ya no se usa e imprime el link para mandar. Los videos privados conviene dejarlos debajo de 50 MB: se descargan enteros antes de reproducirse.
+Cifra solo lo nuevo, borra lo que ya no se usa e imprime el link para mandar. Los videos se cifran en pedazos de 1 MB (`<id>-000.bin`, `<id>-001.bin`...) y `archivo/sw.js`, un service worker, los descifra a medida que el reproductor los pide: el video arranca enseguida y se puede adelantar. En un navegador sin service worker se bajan todos los pedazos y recién ahí se reproduce.
 
 ## Estructura
 

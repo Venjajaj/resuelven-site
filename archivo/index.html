@@ -107,32 +107,87 @@
   }
 
   // ───────── trabajos privados: se bajan cifrados y se abren en el navegador ─────────
-  let KEY = null;
+  let KEY = null, RAW = null, FILES = {}, SW = null;
   const b64url = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
-  async function bajar(id, total, onp) {
-    const r = await fetch(`archivo/m/${id}.bin`);
-    if (!r.ok) throw new Error("no encontrado");
-    const reader = r.body.getReader(), partes = [];
-    let n = 0;
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      partes.push(value); n += value.length;
-      if (onp && total) onp(Math.min(1, n / total));
-    }
-    const buf = new Uint8Array(n); let o = 0;
-    for (const p of partes) { buf.set(p, o); o += p.length; }
-    return buf;
+  async function descifrar(b, aad) {
+    const alg = { name: "AES-GCM", iv: b.subarray(0, 12) };
+    if (aad) alg.additionalData = new TextEncoder().encode(aad);
+    return new Uint8Array(await crypto.subtle.decrypt(alg, KEY, b.subarray(12)));
   }
-  async function abrir(id, total, onp) {
-    const b = await bajar(id, total, onp);
-    return new Uint8Array(await crypto.subtle.decrypt({ name: "AES-GCM", iv: b.subarray(0, 12) }, KEY, b.subarray(12)));
-  }
+  const bajar = async (f) => { const r = await fetch(`archivo/m/${f}`); if (!r.ok) throw new Error(r.status); return new Uint8Array(await r.arrayBuffer()); };
   const urls = new Map();
-  async function blobUrl(id, total, type, onp) {
-    if (!urls.has(id)) urls.set(id, URL.createObjectURL(new Blob([await abrir(id, total, onp)], { type })));
-    return urls.get(id);
+  async function poster(t) {
+    if (!urls.has(t.poster)) urls.set(t.poster, URL.createObjectURL(new Blob([await descifrar(await bajar(t.poster + ".bin"))], { type: "image/jpeg" })));
+    return urls.get(t.poster);
   }
+  // respaldo sin service worker: todos los pedazos, y recien ahi se reproduce
+  async function videoEntero(t, onp) {
+    if (urls.has(t.video)) return urls.get(t.video);
+    const partes = [];
+    for (let i = 0; i < t.chunks; i++) {
+      partes.push(await descifrar(await bajar(`${t.video}-${String(i).padStart(3, "0")}.bin`), `${t.video}:${i}`));
+      onp((i + 1) / t.chunks);
+    }
+    urls.set(t.video, URL.createObjectURL(new Blob(partes, { type: "video/mp4" })));
+    return urls.get(t.video);
+  }
+
+  // el service worker descifra de a pedazos mientras se reproduce
+  const mandarClave = (destino) => destino.postMessage({ type: "clave", raw: RAW, files: FILES });
+  async function prepararSW() {
+    if (!("serviceWorker" in navigator)) return;
+    try {
+      navigator.serviceWorker.addEventListener("message", (e) => {
+        if (e.data?.type === "pedir-clave" && RAW) mandarClave(e.ports[0]);
+      });
+      const reg = await navigator.serviceWorker.register("archivo/sw.js", { scope: "archivo/" });
+      await navigator.serviceWorker.ready;
+      if (!navigator.serviceWorker.controller) {
+        await new Promise((ok, ko) => {
+          navigator.serviceWorker.addEventListener("controllerchange", ok, { once: true });
+          setTimeout(ko, 3000);
+        });
+      }
+      mandarClave(reg.active);
+      SW = reg;
+    } catch { SW = null; }
+  }
+
+  function reproducir(t, yo, src, alFallar) {
+    const v = document.createElement("video");
+    Object.assign(v, { controls: true, autoplay: true, playsInline: true, disablePictureInPicture: true });
+    v.setAttribute("controlsList", "nofullscreen nodownload");
+    if (urls.has(t.poster)) v.poster = urls.get(t.poster);
+    if (alFallar) v.addEventListener("error", alFallar, { once: true });
+    v.src = src;
+    if (yo === abierto) lightboxMedia.replaceChildren(v);
+  }
+  async function abrirPrivado(t) {
+    const yo = ++abierto;
+    lightboxMedia.innerHTML = `<div class="archivo__carga">Cargando</div>`;
+    lightbox.classList.add("open");
+    medir(t.titulo);
+    const entero = async () => {
+      try {
+        const src = await videoEntero(t, (p) => {
+          const el = lightboxMedia.querySelector(".archivo__carga");
+          if (el && yo === abierto) el.textContent = `Cargando ${Math.round(p * 100)}%`;
+        });
+        reproducir(t, yo, src);
+      } catch {
+        if (yo === abierto) lightboxMedia.innerHTML = `<div class="archivo__carga">No se pudo abrir el video</div>`;
+      }
+    };
+    if (SW && navigator.serviceWorker.controller) {
+      if (RAW) mandarClave(navigator.serviceWorker.controller);
+      reproducir(t, yo, `archivo/v/${t.video}.mp4`, () => {
+        if (yo !== abierto) return;
+        lightboxMedia.innerHTML = `<div class="archivo__carga">Cargando</div>`;
+        entero();
+      });
+    } else entero();
+  }
+
   function ficha(t) {
     const card = document.createElement("div");
     card.className = "work"; card.dataset.cat = t.cat;
@@ -142,38 +197,24 @@
     card.querySelector(".work__title").textContent = t.titulo;
     card.querySelector(".work__meta").textContent = t.meta;
     card.querySelector(".work__roles").textContent = t.roles;
-    blobUrl(t.poster, t.posterBytes, "image/jpeg").then((u) => {
+    poster(t).then((u) => {
       const img = card.querySelector("img"); img.src = u; img.onload = () => img.classList.add("lista");
     }).catch(() => {});
-    card.querySelector(".work__media").addEventListener("click", async () => {
-      const yo = ++abierto;
-      lightboxMedia.innerHTML = `<div class="archivo__carga">Cargando 0%</div>`;
-      lightbox.classList.add("open");
-      medir(t.titulo);
-      try {
-        const poster = urls.get(t.poster) || "";
-        const src = await blobUrl(t.video, t.videoBytes, "video/mp4", (p) => {
-          const el = lightboxMedia.querySelector(".archivo__carga");
-          if (el && yo === abierto) el.textContent = `Cargando ${Math.round(p * 100)}%`;
-        });
-        if (yo !== abierto) return;
-        lightboxMedia.innerHTML = `<video src="${src}" poster="${poster}" controls controlsList="nofullscreen nodownload" disablePictureInPicture autoplay playsinline></video>`;
-      } catch {
-        if (yo === abierto) lightboxMedia.innerHTML = `<div class="archivo__carga">No se pudo abrir el video</div>`;
-      }
-    });
+    card.querySelector(".work__media").addEventListener("click", () => abrirPrivado(t));
     return card;
   }
   async function privados() {
     const k = window.__archivoClave;
     if (!k || !window.crypto?.subtle) return false;
     try {
-      KEY = await crypto.subtle.importKey("raw", b64url(k), "AES-GCM", false, ["decrypt"]);
-      const { trabajos } = JSON.parse(new TextDecoder().decode(await abrir("indice")));
+      RAW = b64url(k);
+      KEY = await crypto.subtle.importKey("raw", RAW, "AES-GCM", false, ["decrypt"]);
+      const { trabajos } = JSON.parse(new TextDecoder().decode(await descifrar(await bajar("indice.bin"))));
+      trabajos.forEach((t) => { FILES[t.video] = { size: t.videoSize, chunk: t.chunk, chunks: t.chunks }; });
       trabajos.forEach((t) => privGrid.appendChild(ficha(t)));
       document.getElementById("privado").hidden = false;
       document.getElementById("pubKicker").textContent = "TRABAJOS PUBLICADOS";
-      document.getElementById("work").classList.add("archivo");
+      prepararSW();
       return true;
     } catch { return false; }
   }
