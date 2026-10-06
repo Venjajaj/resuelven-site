@@ -42,12 +42,14 @@ Comprime y genera la portada. **Ojo**: el script todavía imprime la entrada con
 
 Después de correrlo, la ficha se escribe a mano en `index.html`, y hay que tocar **cuatro cosas** o el sitio queda inconsistente:
 
-1. **La ficha** en `#workgrid`, copiando una existente. Los `data-*` mandan: `data-cat` (ficcion/animacion/publicidad), `data-media`, `data-src`, `data-fmt`, `data-client` (se omite si es igual al título), `data-country` (se omite si no aplica) y `data-roles` separados por coma.
-2. **Las banderas de visibilidad**: solo las primeras ocho llevan `data-hidden-by-more="false"` y no llevan la clase `work--hidden`; el resto al revés. Si agregás una arriba, hay que recalcular todas.
+1. **La ficha** en `#workgrid`, copiando una existente. Los `data-*` mandan: `data-cat` (ficcion/animacion/publicidad), `data-media`, `data-src`, `data-fmt`, `data-client` (se omite si es igual al título), `data-country` (se omite si no aplica) y `data-roles` separados por coma. Además lleva **`style="--ar:<proporción>"` como número decimal** (1.778 para 16:9, 0.5625 para 9:16, 2.39 para cine): de ahí sale el ancho de la ficha. Escrito como `16/9` la ficha queda con ancho cero.
+2. **Las banderas de visibilidad**: solo las primeras once llevan `data-hidden-by-more="false"` y no llevan la clase `work--hidden`; el resto al revés. Si agregás una arriba, hay que recalcular todas. La galería arma filas del mismo alto con cada pieza en su formato, así que el orden decide cómo quedan las filas: conviene mirar el resultado.
 3. **El JSON-LD** del `<head>`: sumar el `ListItem`, renumerar todas las `position` y actualizar `numberOfItems`.
 4. **Las etiquetas nuevas** en `TYPE_LABELS`, `COUNTRY_LABELS` o `ROLE_LABELS` de `js/main.js`, en inglés y castellano. Si falta una, el crédito sale como `undefined`.
 
 El texto alternativo de la portada se escribe **mirando el fotograma**, describiendo lo que se ve, no repitiendo el título.
+
+La portada va **sin franjas negras** (recortada al contenido real) y a no más de 1600 px de ancho; las verticales, a 900. Sin subtítulos quemados ni logos grandes si el video tiene un cuadro limpio.
 
 Regla al comprimir: si el resultado pesa **más** que el original, se deja el original. Pasa cuando la fuente ya venía bien codificada a bitrate bajo.
 
@@ -69,12 +71,22 @@ Cifra solo lo nuevo, borra lo que ya no se usa e imprime el link para mandar. Lo
 
 ## Estructura
 
-- `index.html` — todo el marcado, con atributos `data-i18n` para los textos. **Las 15 fichas de la galería están escritas acá**, no las genera el JS: cada `.work` lleva en `data-*` su categoría, el medio del lightbox y los créditos (`fmt`, `client`, `country`, `roles`), y los textos en castellano ya vienen puestos para que los lea un buscador. Para agregar una pieza se agrega la ficha a mano.
+- `index.html` — todo el marcado, con atributos `data-i18n` para los textos. **Las 16 fichas de la galería están escritas acá**, no las genera el JS: cada `.work` lleva en `data-*` su categoría, el medio del lightbox y los créditos (`fmt`, `client`, `country`, `roles`), y los textos en castellano ya vienen puestos para que los lea un buscador. Para agregar una pieza se agrega la ficha a mano.
 - `css/style.css` — hoja formateada en varias líneas. Estuvo minificada en una sola línea por herencia de Carrd hasta agosto de 2026, cuando se desminificó porque cada lectura costaba carísimo.
 - `js/main.js` — diccionarios de idioma y de etiquetas (`TYPE_LABELS`, `COUNTRY_LABELS`, `ROLE_LABELS`), traducción de los créditos de cada ficha, filtros, lightbox y el opener
 - `assets/` — videos, posters e imágenes
 - `branding/` — logos en SVG y PNG, y el manual de marca
 - `serve.mjs` — servidor para previsualizar local en el puerto 8791
+
+## Hero
+
+El fondo del hero es un reel de unos 26 segundos sin sonido, armado con planos de los trabajos públicos: `assets/videos/reel.mp4` (1080p) y `reel-540.mp4` (celular, lo elige el navegador por el `media` del `<source>`). Abre con la mano y la máquina a punto de tocarse. **No lleva trabajos privados ni retirados de la galería.**
+
+Al cargar, el reel se resuelve desde los píxeles en un segundo y medio (`resolverReel()` en `js/main.js`), después del opener. Es el único movimiento que no dispara quien mira: no hay fundidos al hacer scroll.
+
+## Diseño
+
+Una sola familia, Space Grotesk. Sin etiquetas en mayúsculas arriba de los títulos ni datos unidos con puntos medios: los créditos se escriben como frase, con comas. La caja con borde queda solo para lo que es un objeto, como un video. La crítica completa que llevó a esto está en `https://claude.ai/code/artifact/ba273dd6-7b7e-4fcb-95c8-c9f261ab8ce1`.
 
 ## Textos
 

@@ -13,7 +13,7 @@ const I18N = {
     hero_kicker: "AUDIOVISUAL PRODUCTION COMPANY",
     hero_title: "Your Vision.<br>Our Venue.",
     hero_sub: "We turn ideas, stories and visions into pieces ready for pitch, campaign or screen. We work as technical-creative allies to projects, agencies and production companies around the world.",
-    work_kicker: "LAST WORK",
+    work_kicker: "Work",
     work_more: "Show all projects",
     work_less: "Show less",
     cat_all: "All",
@@ -55,7 +55,7 @@ const I18N = {
     hero_kicker: "PRODUCTORA AUDIOVISUAL",
     hero_title: "Tu visión.<br>Nuestro escenario.",
     hero_sub: "Convertimos ideas, historias y visiones en piezas listas para pitch, campaña o pantalla. Trabajamos como aliados técnico-creativos de proyectos, agencias y productoras alrededor del mundo.",
-    work_kicker: "ÚLTIMOS TRABAJOS",
+    work_kicker: "Trabajos",
     work_more: "Ver todos los proyectos",
     work_less: "Ver menos",
     cat_all: "Todos",
@@ -153,6 +153,7 @@ const lightbox = document.getElementById("lightbox");
 const lightboxMedia = document.getElementById("lightboxMedia");
 function openLightbox(card) {
   const d = card.dataset;
+  lightbox.style.setProperty("--ar", card.style.getPropertyValue("--ar") || "1.778");
   if (d.media === "video") {
     lightboxMedia.innerHTML = `<video src="${d.src}" ${d.poster ? `poster="${d.poster}"` : ""} controls controlsList="nofullscreen" disablePictureInPicture autoplay playsinline></video>`;
   } else {
@@ -176,15 +177,16 @@ document.addEventListener("fullscreenchange", () => {
 function workCaption(d) {
   const t = d.fmt ? TYPE_LABELS[lang][d.fmt] : "";
   const c = d.country ? COUNTRY_LABELS[lang][d.country] : "";
-  return [t, d.client, c].filter(Boolean).join(" · ");
+  return [t, d.client, c].filter(Boolean).join(", ");
 }
 function renderWorkCaptions() {
   document.querySelectorAll(".work").forEach((card) => {
     const d = card.dataset;
     card.querySelector(".work__meta").textContent = workCaption(d);
+    // como en los creditos: una frase, con mayuscula solo al principio
     card.querySelector(".work__roles").textContent = (d.roles ? d.roles.split(",") : [])
-      .map((r) => ROLE_LABELS[lang][r])
-      .join(" · ");
+      .map((r, i) => { const s = ROLE_LABELS[lang][r]; return i && !/^[A-Z]{2}/.test(s) ? s[0].toLowerCase() + s.slice(1) : s; })
+      .join(", ");
   });
 }
 grid.querySelectorAll(".work").forEach((card) => {
@@ -244,48 +246,12 @@ moreBtn.addEventListener("click", () => {
 renderFilterPills();
 const heroEl = document.querySelector(".hero");
 const heroBg = document.querySelector(".hero__bg");
-let hmx = 0, hmy = 0, heroTick = false;
-function heroFrame() {
-  heroTick = false;
-  const sy = Math.min(window.scrollY, window.innerHeight);
-  heroBg.style.transform = `translate3d(${hmx}px, ${sy * 0.28 + hmy}px, 0) scale(1.08)`;
-}
-function heroQueue() { if (!heroTick) { heroTick = true; requestAnimationFrame(heroFrame); } }
-addEventListener("scroll", heroQueue, { passive: true });
-heroEl.addEventListener("mousemove", (e) => {
-  hmx = (e.clientX / window.innerWidth - 0.5) * -16;
-  hmy = (e.clientY / window.innerHeight - 0.5) * -10;
-  heroQueue();
-});
-heroEl.addEventListener("mouseleave", () => { hmx = 0; hmy = 0; heroQueue(); });
-heroEl.classList.add("flash-on");
-const flashBtn = document.getElementById("flashBtn");
-if (flashBtn) {
-  flashBtn.addEventListener("click", () => {
-    const on = heroEl.classList.toggle("flash-on");
-    flashBtn.setAttribute("aria-pressed", on ? "true" : "false");
-  });
-  heroEl.addEventListener("pointermove", (e) => {
-    if (!heroEl.classList.contains("flash-on")) return;
-    const r = heroEl.getBoundingClientRect();
-    heroEl.style.setProperty("--fx", (e.clientX - r.left) + "px");
-    heroEl.style.setProperty("--fy", (e.clientY - r.top) + "px");
-  }, { passive: true });
-}
 const navEl = document.getElementById("nav");
 addEventListener("scroll", () => navEl.classList.toggle("scrolled", scrollY > 30), { passive: true });
 const burger = document.getElementById("burger");
 const navLinks = document.querySelector(".nav__links");
 burger.addEventListener("click", () => navLinks.classList.toggle("open"));
 navLinks.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => navLinks.classList.remove("open")));
-const io = new IntersectionObserver(
-  (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } }),
-  { threshold: 0.12 }
-);
-document.querySelectorAll(".svc-item, .work, .contact-item, .section__head").forEach((el) => {
-  el.classList.add("reveal");
-  io.observe(el);
-});
 // los videos de los dos bloques de metodo: no se descargan hasta que entran en pantalla,
 // arrancan solos en silencio y se pausan al salir
 const studioVids = document.querySelectorAll(".studio-col__vid");
@@ -301,6 +267,60 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
   studioVids.forEach((v) => vio.observe(v));
 }
 applyTexts();
+
+// El reel del hero se resuelve desde los pixeles al cargar, como la n del logo:
+// arranca en bloques de 64 px mezclados con ruido de la marca y baja hasta el video
+// limpio en un segundo y medio. Es el unico movimiento que no dispara quien mira.
+function resolverReel() {
+  if (!heroBg || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c = document.createElement("canvas");
+  c.className = "hero__px";
+  c.setAttribute("aria-hidden", "true");
+  heroBg.after(c);
+  const x = c.getContext("2d");
+  const chico = document.createElement("canvas"), cx = chico.getContext("2d");
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  const PASOS = [64, 48, 32, 24, 16, 12, 8, 6, 4, 3, 2];
+  const RUIDO = ["#0A0E14", "#121826", "#2D72C8", "#9CC2ED"];
+  const DUR = 1500;
+  let t0 = 0, listo = false;
+  const medir = () => { c.width = Math.round(c.clientWidth * dpr); c.height = Math.round(c.clientHeight * dpr); };
+  medir();
+  x.fillStyle = "#0A0E14"; x.fillRect(0, 0, c.width, c.height);
+  function cuadro(now) {
+    if (!t0) t0 = now;
+    const p = Math.min(1, (now - t0) / DUR);
+    const celda = PASOS[Math.min(PASOS.length - 1, Math.floor(p * PASOS.length))] * dpr;
+    const w = Math.max(1, Math.ceil(c.width / celda)), h = Math.max(1, Math.ceil(c.height / celda));
+    chico.width = w; chico.height = h;
+    // el mismo recorte que object-fit: cover
+    const vw = heroBg.videoWidth, vh = heroBg.videoHeight, k = Math.max(c.width / vw, c.height / vh);
+    const sw = c.width / k, sh = c.height / k;
+    cx.drawImage(heroBg, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, c.width / celda, c.height / celda);
+    const ruido = Math.max(0, 1 - p / 0.45);
+    for (let j = 0; ruido && j < h; j++) for (let i = 0; i < w; i++) {
+      if (Math.random() < ruido * ruido) { cx.fillStyle = RUIDO[(Math.random() * 4) | 0]; cx.fillRect(i, j, 1, 1); }
+    }
+    x.imageSmoothingEnabled = false;
+    x.clearRect(0, 0, c.width, c.height);
+    x.drawImage(chico, 0, 0, w, h, 0, 0, w * celda, h * celda);
+    c.style.opacity = p < 0.8 ? 1 : 1 - (p - 0.8) / 0.2;
+    if (p < 1) requestAnimationFrame(cuadro); else c.remove();
+  }
+  function arrancar() {
+    if (listo) return; listo = true;
+    medir();
+    requestAnimationFrame(cuadro);
+  }
+  // espera a que haya imagen y a que termine el opener; si el video tarda, el lienzo se va igual
+  const cuandoListo = () => document.body.classList.contains("ready") && heroBg.readyState >= 2 && arrancar();
+  heroBg.addEventListener("loadeddata", cuandoListo);
+  new MutationObserver(cuandoListo).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  cuandoListo();
+  setTimeout(() => { if (!listo) { c.style.transition = "opacity .6s"; c.style.opacity = 0; setTimeout(() => c.remove(), 700); listo = true; } }, 6000);
+}
+resolverReel();
+
 (function opener() {
   const el = document.getElementById("opener");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

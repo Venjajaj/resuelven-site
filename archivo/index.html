@@ -21,7 +21,7 @@
   <link rel="icon" href="assets/images/favicon-n.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <style>
     .archivo { padding-top: 140px; }
@@ -54,7 +54,6 @@
 
   <section class="section archivo" id="privado" hidden>
     <div class="section__head">
-      <p class="section__kicker">ÚLTIMOS TRABAJOS</p>
       <h1 class="section__title">Trabajos recientes</h1>
       <p class="archivo__intro">Todavía no son públicos. Te pedimos que no compartas este link.</p>
     </div>
@@ -63,7 +62,6 @@
 
   <section class="section archivo" id="work">
     <div class="section__head">
-      <p class="section__kicker" id="pubKicker">ARCHIVO DE TRABAJOS</p>
       <h2 class="section__title" id="pubTitle">Todos los proyectos</h2>
     </div>
     <div class="workfilter" id="workfilter"></div>
@@ -96,8 +94,10 @@
   addEventListener("keydown", (e) => { if (e.key === "Escape" && lightbox.classList.contains("open")) closeLightbox(); });
   const medir = (titulo) => window.medir?.("trabajo_abierto", { trabajo: titulo, pagina: "archivo" });
 
+  const formato = (card) => lightbox.style.setProperty("--ar", card.style.getPropertyValue("--ar") || "1.778");
   function openPublic(card) {
     abierto++;
+    formato(card);
     const d = card.dataset;
     lightboxMedia.innerHTML = d.media === "video"
       ? `<video src="${d.src}" ${d.poster ? `poster="${d.poster}"` : ""} controls controlsList="nofullscreen" disablePictureInPicture autoplay playsinline></video>`
@@ -162,8 +162,9 @@
     v.src = src;
     if (yo === abierto) lightboxMedia.replaceChildren(v);
   }
-  async function abrirPrivado(t) {
+  async function abrirPrivado(t, card) {
     const yo = ++abierto;
+    formato(card);
     lightboxMedia.innerHTML = `<div class="archivo__carga">Cargando</div>`;
     lightbox.classList.add("open");
     medir(t.titulo);
@@ -198,9 +199,11 @@
     card.querySelector(".work__meta").textContent = t.meta;
     card.querySelector(".work__roles").textContent = t.roles;
     poster(t).then((u) => {
-      const img = card.querySelector("img"); img.src = u; img.onload = () => img.classList.add("lista");
+      const img = card.querySelector("img");
+      img.onload = () => { card.style.setProperty("--ar", (img.naturalWidth / img.naturalHeight).toFixed(3)); img.classList.add("lista"); };
+      img.src = u;
     }).catch(() => {});
-    card.querySelector(".work__media").addEventListener("click", () => abrirPrivado(t));
+    card.querySelector(".work__media").addEventListener("click", () => abrirPrivado(t, card));
     return card;
   }
   async function privados() {
@@ -213,7 +216,7 @@
       trabajos.forEach((t) => { FILES[t.video] = { size: t.videoSize, chunk: t.chunk, chunks: t.chunks }; });
       trabajos.forEach((t) => privGrid.appendChild(ficha(t)));
       document.getElementById("privado").hidden = false;
-      document.getElementById("pubKicker").textContent = "TRABAJOS PUBLICADOS";
+      document.getElementById("pubTitle").textContent = "Trabajos publicados";
       prepararSW();
       return true;
     } catch { return false; }
@@ -225,7 +228,7 @@
       const html = await (await fetch("index.html")).text();
       const doc = new DOMParser().parseFromString(html, "text/html");
       doc.querySelectorAll("#workgrid .work").forEach((card) => {
-        card.classList.remove("work--hidden", "reveal");
+        card.classList.remove("work--hidden");
         card.removeAttribute("data-hidden-by-more");
         const c = document.importNode(card, true);
         c.querySelector(".work__media").addEventListener("click", () => openPublic(c));
@@ -248,14 +251,7 @@
     });
   }
 
-  function aparecer() {
-    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); }
-    }), { threshold: 0.12 });
-    document.querySelectorAll(".work, .contact-item, .section__head").forEach((el) => { el.classList.add("reveal"); io.observe(el); });
-  }
-
-  Promise.all([privados(), publicos()]).then(() => { filtros(); aparecer(); });
+  Promise.all([privados(), publicos()]).then(() => { filtros(); });
   </script>
 </body>
 </html>

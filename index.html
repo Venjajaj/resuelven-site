@@ -326,7 +326,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -382,17 +382,16 @@
   </header>
   
   <section class="hero" id="top">
-    <video class="hero__bg" autoplay muted loop playsinline poster="assets/videos/bg.mp4.jpg">
-      <source src="assets/videos/bg.mp4" type="video/mp4">
+    <video class="hero__bg" autoplay muted loop playsinline preload="auto" poster="assets/videos/reel_poster.jpg" aria-label="Reel de trabajos de Resuelven">
+      <source src="assets/videos/reel-540.mp4" type="video/mp4" media="(max-width: 700px)">
+      <source src="assets/videos/reel.mp4" type="video/mp4">
     </video>
     <div class="hero__overlay"></div>
     <div class="hero__grain"></div>
-    <div class="hero__flash" aria-hidden="true"></div>
     <div class="hero__bar hero__bar--top"></div>
     <div class="hero__bar hero__bar--bottom"></div>
     <div class="hero__inner">
       <div class="hero__content">
-        <p class="hero__kicker" data-i18n="hero_kicker">PRODUCTORA AUDIOVISUAL</p>
         <h1 class="hero__title" data-i18n-html="hero_title">Tu visión.<br>Nuestro escenario.</h1>
         <p class="hero__sub" data-i18n="hero_sub">Convertimos ideas, historias y visiones en piezas listas para pitch, campaña o pantalla. Trabajamos como aliados técnico-creativos de proyectos, agencias y productoras alrededor del mundo.</p>
         <div class="hero__actions">
@@ -401,16 +400,10 @@
         </div>
       </div>
     </div>
-    <button class="hero__flashbtn" id="flashBtn" aria-pressed="true" aria-label="Linterna / Flashlight">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 2h6l-1 6-2 3-2-3-1-6Z"/><path d="M12 11v9"/><path d="M10.5 20h3"/>
-      </svg>
-    </button>
   </section>
   
   <section class="section" id="services">
     <div class="section__head">
-      <p class="section__kicker" data-i18n="services_kicker">QUÉ HACEMOS</p>
       <h2 class="studio-lead" data-i18n="studio_lead">Desarrollamos producciones nativas digitales y rodajes híbridos, adaptando la producción a la visión creativa, el presupuesto y el tiempo disponible.</h2>
     </div>
     <div class="studio-cols">
@@ -460,165 +453,165 @@
   
   <section class="section" id="work">
     <div class="section__head">
-      <p class="section__kicker" data-i18n="work_kicker">ÚLTIMOS TRABAJOS</p>
+      <h2 class="section__title" data-i18n="work_kicker">Trabajos</h2>
     </div>
     <div class="workfilter" id="workfilter"></div>
     <div class="workgrid" id="workgrid">
-      <div class="work reveal" data-cat="ficcion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/villamoises.mp4" data-fmt="teaser" data-country="argentina" data-roles="guion,chardev,direccion,dof,genanim,edit,color,sound">
+      <div class="work" style="--ar:1.778" data-cat="ficcion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/villamoises.mp4" data-fmt="teaser" data-country="argentina" data-roles="guion,chardev,direccion,dof,genanim,edit,color,sound">
         <div class="work__media">
           <img src="assets/videos/villamoises_poster.jpg" alt="Primer plano de un hombre de barba larga y sombrero de ala ancha a contraluz, del pitch teaser de La Villa de Moisés" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">La Villa de Moisés</h3>
-          <p class="work__meta">Pitch teaser · Argentina</p>
-          <p class="work__roles">Guion · Desarrollo visual de personaje · Dirección · Dirección de fotografía · Animación generativa · Montaje · Corrección de color · Diseño sonoro</p>
+          <p class="work__meta">Pitch teaser, Argentina</p>
+          <p class="work__roles">Guion, desarrollo visual de personaje, dirección, dirección de fotografía, animación generativa, montaje, corrección de color, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal" data-cat="ficcion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/prologue.mp4" data-fmt="teaser" data-client="Authors First" data-country="usa" data-roles="dof,genanim,edit,sound">
+      <div class="work" style="--ar:2.216" data-cat="ficcion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/prologue.mp4" data-fmt="teaser" data-client="Authors First" data-country="usa" data-roles="dof,genanim,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video14_thumbnail.jpg" alt="Guerrero con capucha de piel tensa un arco en la nieve, del pitch teaser de Genghis: Birth of an Empire" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Genghis: Birth of an Empire</h3>
-          <p class="work__meta">Pitch teaser · Authors First · EE.UU.</p>
-          <p class="work__roles">Dirección de fotografía · Animación generativa · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Pitch teaser, Authors First, EE.UU.</p>
+          <p class="work__roles">Dirección de fotografía, animación generativa, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal" data-cat="ficcion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/video17.mp4" data-fmt="trailer" data-country="argentina" data-roles="guion,direccion,dof,genanim,edit,sound">
+      <div class="work" style="--ar:2.332" data-cat="ficcion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/video17.mp4" data-fmt="trailer" data-country="argentina" data-roles="guion,direccion,dof,genanim,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video17_thumbnail.jpg" alt="Dos personas mayores hablan de noche por la ventanilla de una combi, del trailer de Antípodas: Lo Más Lejos Posible" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Antípodas: Lo Más Lejos Posible</h3>
-          <p class="work__meta">Trailer · Argentina</p>
-          <p class="work__roles">Guion · Dirección · Dirección de fotografía · Animación generativa · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Trailer, Argentina</p>
+          <p class="work__roles">Guion, dirección, dirección de fotografía, animación generativa, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal" data-cat="publicidad" data-hidden-by-more="false" data-media="video" data-src="assets/videos/kodex1.mp4" data-fmt="ad" data-country="dubai" data-roles="concept,genai,oneshot,mograph,edit,sound">
+      <div class="work" style="--ar:1.778" data-cat="publicidad" data-hidden-by-more="false" data-media="video" data-src="assets/videos/kodex1.mp4" data-fmt="ad" data-country="dubai" data-roles="concept,genai,oneshot,mograph,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video20_thumbnail.jpg" alt="Presentador de circo de levita roja bajo la carpa junto al logo de Kodex1, del aviso para Kodex1" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Kodex1</h3>
-          <p class="work__meta">Publicidad · Dubái</p>
-          <p class="work__roles">Desarrollo de concepto · Generación con IA · Realización one-shot · Motion graphics · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Publicidad, Dubái</p>
+          <p class="work__roles">Desarrollo de concepto, generación con IA, realización one-shot, motion graphics, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal" data-cat="ficcion" data-hidden-by-more="false" data-media="iframe" data-src="https://drive.google.com/file/d/1FdK5aIOEChy8O3pShALOVH-JVPJBWcua/preview" data-fmt="cortometraje" data-country="argentina" data-roles="scriptdev,sboards,animatics,genanim,edit,sound">
+      <div class="work" style="--ar:2.367" data-cat="ficcion" data-hidden-by-more="false" data-media="iframe" data-src="https://drive.google.com/file/d/1FdK5aIOEChy8O3pShALOVH-JVPJBWcua/preview" data-fmt="cortometraje" data-country="argentina" data-roles="scriptdev,sboards,animatics,genanim,edit,sound">
         <div class="work__media">
           <img src="assets/videos/manual_poster.jpg" alt="Habitación de motel de noche con neón rojo en la ventana y un hombre apoyado contra la pared, del cortometraje Manual para cazar una ballena" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Manual para cazar una ballena</h3>
-          <p class="work__meta">Cortometraje · Argentina</p>
-          <p class="work__roles">Desarrollo de guion · Storyboards · Animatics · Animación generativa · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Cortometraje, Argentina</p>
+          <p class="work__roles">Desarrollo de guion, storyboards, animatics, animación generativa, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal" data-cat="animacion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/video19.mp4" data-poster="assets/videos/video19_poster.jpg" data-fmt="herovideo" data-country="uk" data-roles="chardev,dof,genanim,edit,vo,sound">
+      <div class="work" style="--ar:1.778" data-cat="animacion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/video19.mp4" data-poster="assets/videos/video19_poster.jpg" data-fmt="herovideo" data-country="uk" data-roles="chardev,dof,genanim,edit,vo,sound">
         <div class="work__media">
           <img src="assets/videos/video19_poster.jpg" alt="Personaje élfico de pelo blanco frente a un dron con cámara que proyecta un haz violeta, del hero video de Muterra" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Muterra</h3>
-          <p class="work__meta">Hero video · Reino Unido</p>
-          <p class="work__roles">Desarrollo visual de personaje · Dirección de fotografía · Animación generativa · Montaje · Voice over · Diseño sonoro</p>
+          <p class="work__meta">Hero video, Reino Unido</p>
+          <p class="work__roles">Desarrollo visual de personaje, dirección de fotografía, animación generativa, montaje, voice over, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal" data-cat="publicidad" data-hidden-by-more="false" data-media="iframe" data-src="https://www.youtube-nocookie.com/embed/7hWI-mV_FtY?rel=0&amp;autoplay=1" data-fmt="corporate" data-country="canada" data-roles="mograph,edit">
+      <div class="work" style="--ar:1.778" data-cat="publicidad" data-hidden-by-more="false" data-media="iframe" data-src="https://www.youtube-nocookie.com/embed/7hWI-mV_FtY?rel=0&amp;autoplay=1" data-fmt="corporate" data-country="canada" data-roles="mograph,edit">
         <div class="work__media">
           <img src="https://i.ytimg.com/vi/7hWI-mV_FtY/maxresdefault.jpg" alt="Vista aérea del skyline de Toronto al atardecer, del video corporativo para CBRE" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">CBRE</h3>
-          <p class="work__meta">Video corporativo · Canadá</p>
-          <p class="work__roles">Motion graphics · Montaje</p>
+          <p class="work__meta">Video corporativo, Canadá</p>
+          <p class="work__roles">Motion graphics, montaje</p>
         </div>
       </div>
-      <div class="work reveal" data-cat="publicidad" data-hidden-by-more="false" data-media="video" data-src="assets/videos/video12.mp4" data-poster="assets/videos/video12_poster.jpg" data-fmt="ad" data-country="usa" data-roles="concept,guion,genvideo,edit,sound">
+      <div class="work" style="--ar:0.5625" data-cat="publicidad" data-hidden-by-more="false" data-media="video" data-src="assets/videos/video12.mp4" data-poster="assets/videos/video12_poster.jpg" data-fmt="ad" data-country="usa" data-roles="concept,guion,genvideo,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video12_poster.jpg" alt="Manos atando un globo negro al aire libre, de la campaña vertical para Betterwase" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Betterwase</h3>
-          <p class="work__meta">Publicidad · EE.UU.</p>
-          <p class="work__roles">Desarrollo de concepto · Guion · Generación de video · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Publicidad, EE.UU.</p>
+          <p class="work__roles">Desarrollo de concepto, guion, generación de video, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal work--hidden" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video07.mp4" data-poster="assets/videos/video07_poster.jpg" data-fmt="ad" data-country="usa" data-roles="concept,guion,genvideo,edit,sound">
+      <div class="work" style="--ar:0.5625" data-cat="publicidad" data-hidden-by-more="false" data-media="video" data-src="assets/videos/video07.mp4" data-poster="assets/videos/video07_poster.jpg" data-fmt="ad" data-country="usa" data-roles="concept,guion,genvideo,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video07_poster.jpg" alt="Dormitorio en tonos verdes visto desde el marco de la puerta, de la campaña vertical para Betterwase" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Betterwase</h3>
-          <p class="work__meta">Publicidad · EE.UU.</p>
-          <p class="work__roles">Desarrollo de concepto · Guion · Generación de video · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Publicidad, EE.UU.</p>
+          <p class="work__roles">Desarrollo de concepto, guion, generación de video, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal work--hidden" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/grounding.mp4" data-fmt="longform" data-country="usa" data-roles="genimg,edit,sound">
+      <div class="work" style="--ar:0.5625" data-cat="publicidad" data-hidden-by-more="false" data-media="video" data-src="assets/videos/grounding.mp4" data-fmt="longform" data-country="usa" data-roles="genimg,edit,sound">
         <div class="work__media">
           <img src="assets/videos/grounding_poster.jpg" alt="Jinete con sombrero de ala ancha sobre un caballo en un campo nevado, del long form ad para Earthing Harmony" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Earthing Harmony</h3>
-          <p class="work__meta">Long-form ad · EE.UU.</p>
-          <p class="work__roles">Generación de imágenes y video · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Long-form ad, EE.UU.</p>
+          <p class="work__roles">Generación de imágenes y video, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal work--hidden" data-cat="animacion" data-hidden-by-more="true" data-media="video" data-src="assets/videos/medicare.mp4" data-fmt="animseries" data-country="usa">
+      <div class="work" style="--ar:0.5625" data-cat="animacion" data-hidden-by-more="false" data-media="video" data-src="assets/videos/medicare.mp4" data-fmt="animseries" data-country="usa">
         <div class="work__media">
           <img src="assets/videos/medicare_poster.jpg" alt="Tres personajes animados en 3D saludan frente a una casa suburbana, de la serie animada para Betterwase" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Betterwase</h3>
-          <p class="work__meta">Serie animada · EE.UU.</p>
+          <p class="work__meta">Serie animada, EE.UU.</p>
           <p class="work__roles"></p>
         </div>
       </div>
-      <div class="work reveal work--hidden" data-cat="ficcion" data-hidden-by-more="true" data-media="video" data-src="assets/videos/dudley.mp4" data-fmt="pitchscene" data-client="Authors First" data-country="usa" data-roles="dof,genanim,dlock,edit,sound">
+      <div class="work work--hidden" style="--ar:1.778" data-cat="ficcion" data-hidden-by-more="true" data-media="video" data-src="assets/videos/dudley.mp4" data-fmt="pitchscene" data-client="Authors First" data-country="usa" data-roles="dof,genanim,dlock,edit,sound">
         <div class="work__media">
           <img src="assets/videos/dudley_poster.jpg" alt="Mujer rubia con las manos abiertas sentada en una grada junto a otras personas, de la escena de prueba de Pandora's Star" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Pandora's Star</h3>
-          <p class="work__meta">Pitch scene · Authors First · EE.UU.</p>
-          <p class="work__roles">Dirección de fotografía · Animación generativa · Sincronización de diálogos · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Pitch scene, Authors First, EE.UU.</p>
+          <p class="work__roles">Dirección de fotografía, animación generativa, sincronización de diálogos, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal work--hidden" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video11.mp4" data-poster="assets/videos/video11_poster.jpg" data-fmt="ad" data-country="usa" data-roles="concept,guion,genanim,edit,sound">
+      <div class="work work--hidden" style="--ar:1.778" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video11.mp4" data-poster="assets/videos/video11_poster.jpg" data-fmt="ad" data-country="usa" data-roles="concept,guion,genanim,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video11_poster.jpg" alt="Maletín rígido de plástico negro con cierres metálicos sobre fondo blanco, del aviso para The Plastic Forming Company" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">The Plastic Forming Company</h3>
-          <p class="work__meta">Publicidad · EE.UU.</p>
-          <p class="work__roles">Desarrollo de concepto · Guion · Animación generativa · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Publicidad, EE.UU.</p>
+          <p class="work__roles">Desarrollo de concepto, guion, animación generativa, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal work--hidden" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video06.mp4" data-fmt="ad" data-country="greece" data-roles="dof,genanim,edit,sound">
+      <div class="work work--hidden" style="--ar:1.778" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video06.mp4" data-fmt="ad" data-country="greece" data-roles="dof,genanim,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video06_thumbnail.jpg" alt="Catamarán fondeado en una cala turquesa entre acantilados blancos, del aviso para Ahoyskipper" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">Ahoyskipper</h3>
-          <p class="work__meta">Publicidad · Grecia</p>
-          <p class="work__roles">Dirección de fotografía · Animación generativa · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Publicidad, Grecia</p>
+          <p class="work__roles">Dirección de fotografía, animación generativa, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal work--hidden" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video10.mp4" data-poster="assets/videos/video10_poster.jpg" data-fmt="ad" data-roles="genanim,edit,sound">
+      <div class="work work--hidden" style="--ar:1.778" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video10.mp4" data-poster="assets/videos/video10_poster.jpg" data-fmt="ad" data-roles="genanim,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video10_poster.jpg" alt="Frente de un local de LensCrafters a contraluz del atardecer con una persona entrando, del aviso para LensCrafters" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
@@ -626,18 +619,18 @@
         <div class="work__info">
           <h3 class="work__title">LensCrafters</h3>
           <p class="work__meta">Publicidad</p>
-          <p class="work__roles">Animación generativa · Montaje · Diseño sonoro</p>
+          <p class="work__roles">Animación generativa, montaje, diseño sonoro</p>
         </div>
       </div>
-      <div class="work reveal work--hidden" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video09.mp4" data-fmt="promo" data-country="argentina" data-roles="concept,genanim,edit,sound">
+      <div class="work work--hidden" style="--ar:1.778" data-cat="publicidad" data-hidden-by-more="true" data-media="video" data-src="assets/videos/video09.mp4" data-fmt="promo" data-country="argentina" data-roles="concept,genanim,edit,sound">
         <div class="work__media">
           <img src="assets/videos/video09_thumbnail.jpg" alt="Pared de televisores antiguos y una mano enguantada apoyando una bandera argentina sobre una pecera, de la intro para 555 Estudio" loading="lazy" onerror="this.style.display='none'">
           <div class="work__play"><span>▶</span></div>
         </div>
         <div class="work__info">
           <h3 class="work__title">555 Estudio</h3>
-          <p class="work__meta">Intro promocional · Argentina</p>
-          <p class="work__roles">Desarrollo de concepto · Animación generativa · Montaje · Diseño sonoro</p>
+          <p class="work__meta">Intro promocional, Argentina</p>
+          <p class="work__roles">Desarrollo de concepto, animación generativa, montaje, diseño sonoro</p>
         </div>
       </div>
     </div>
