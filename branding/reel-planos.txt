@@ -1,0 +1,23 @@
+assets/videos/bg.mp4|6.0|2.4||
+assets/videos/villamoises.mp4|28.2|1.8||
+assets/videos/prologue.mp4|65.2|2.0|crop=1904:862:8:108|
+assets/videos/video09.mp4|0.6|2.5||
+assets/videos/video17.mp4|47.5|2.8|crop=1920:822:0:128|
+assets/videos/prologue.mp4|52.25|1.1|crop=1904:862:8:108|
+assets/videos/coolerkid.mp4|2.0|1.6||
+assets/videos/video10.mp4|2.2|1.8||
+assets/videos/kodex1.mp4|20.0|1.8||
+assets/videos/prologue.mp4|88.0|2.1|crop=1904:862:8:108|
+assets/videos/video19.mp4|15.95|1.2||
+assets/videos/bektar.mp4|40.4|1.8||
+assets/videos/bektar.mp4|45.0|2.0||
+assets/videos/coolerkid.mp4|4.2|1.2||
+assets/videos/coolerkid.mp4|5.65|1.6||
+[Manual Renders]/Version 2026.mp4|65.6|1.7||
+[Manual Renders]/Version 2026.mp4|68.2|1.7||
+[Manual Renders]/Version 2026.mp4|73.2|3.0||L
+assets/videos/prologue.mp4|83.0|2.0|crop=1904:862:8:108|
+assets/videos/hibrido.mp4|1.0|2.0||
+assets/videos/villamoises.mp4|90.0|2.0||
+assets/videos/prologue.mp4|99.0|2.0|crop=1904:862:8:108|
+assets/videos/villamoises.mp4|138.0|2.0||
