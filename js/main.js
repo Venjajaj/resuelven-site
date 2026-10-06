@@ -268,58 +268,6 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
 }
 applyTexts();
 
-// El reel del hero se resuelve desde los pixeles al cargar, como la n del logo:
-// arranca en bloques de 64 px mezclados con ruido de la marca y baja hasta el video
-// limpio en un segundo y medio. Es el unico movimiento que no dispara quien mira.
-function resolverReel() {
-  if (!heroBg || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const c = document.createElement("canvas");
-  c.className = "hero__px";
-  c.setAttribute("aria-hidden", "true");
-  heroBg.after(c);
-  const x = c.getContext("2d");
-  const chico = document.createElement("canvas"), cx = chico.getContext("2d");
-  const dpr = Math.min(devicePixelRatio || 1, 2);
-  const PASOS = [64, 48, 32, 24, 16, 12, 8, 6, 4, 3, 2];
-  const RUIDO = ["#0A0E14", "#121826", "#2D72C8", "#9CC2ED"];
-  const DUR = 1500;
-  let t0 = 0, listo = false;
-  const medir = () => { c.width = Math.round(c.clientWidth * dpr); c.height = Math.round(c.clientHeight * dpr); };
-  medir();
-  x.fillStyle = "#0A0E14"; x.fillRect(0, 0, c.width, c.height);
-  function cuadro(now) {
-    if (!t0) t0 = now;
-    const p = Math.min(1, (now - t0) / DUR);
-    const celda = PASOS[Math.min(PASOS.length - 1, Math.floor(p * PASOS.length))] * dpr;
-    const w = Math.max(1, Math.ceil(c.width / celda)), h = Math.max(1, Math.ceil(c.height / celda));
-    chico.width = w; chico.height = h;
-    // el mismo recorte que object-fit: cover
-    const vw = heroBg.videoWidth, vh = heroBg.videoHeight, k = Math.max(c.width / vw, c.height / vh);
-    const sw = c.width / k, sh = c.height / k;
-    cx.drawImage(heroBg, (vw - sw) / 2, (vh - sh) / 2, sw, sh, 0, 0, c.width / celda, c.height / celda);
-    const ruido = Math.max(0, 1 - p / 0.45);
-    for (let j = 0; ruido && j < h; j++) for (let i = 0; i < w; i++) {
-      if (Math.random() < ruido * ruido) { cx.fillStyle = RUIDO[(Math.random() * 4) | 0]; cx.fillRect(i, j, 1, 1); }
-    }
-    x.imageSmoothingEnabled = false;
-    x.clearRect(0, 0, c.width, c.height);
-    x.drawImage(chico, 0, 0, w, h, 0, 0, w * celda, h * celda);
-    c.style.opacity = p < 0.8 ? 1 : 1 - (p - 0.8) / 0.2;
-    if (p < 1) requestAnimationFrame(cuadro); else c.remove();
-  }
-  function arrancar() {
-    if (listo) return; listo = true;
-    medir();
-    requestAnimationFrame(cuadro);
-  }
-  // espera a que haya imagen y a que termine el opener; si el video tarda, el lienzo se va igual
-  const cuandoListo = () => document.body.classList.contains("ready") && heroBg.readyState >= 2 && arrancar();
-  heroBg.addEventListener("loadeddata", cuandoListo);
-  new MutationObserver(cuandoListo).observe(document.body, { attributes: true, attributeFilter: ["class"] });
-  cuandoListo();
-  setTimeout(() => { if (!listo) { c.style.transition = "opacity .6s"; c.style.opacity = 0; setTimeout(() => c.remove(), 700); listo = true; } }, 6000);
-}
-resolverReel();
 
 (function opener() {
   const el = document.getElementById("opener");
