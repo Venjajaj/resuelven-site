@@ -80,7 +80,7 @@ Cifra solo lo nuevo, borra lo que ya no se usa e imprime el link para mandar. Lo
 
 ## Hero
 
-El fondo del hero es un reel de unos 26 segundos sin sonido, armado con planos de los trabajos públicos: `assets/videos/reel.mp4` (1080p) y `reel-540.mp4` (celular, lo elige el navegador por el `media` del `<source>`). Abre con la mano y la máquina a punto de tocarse. **No lleva trabajos privados ni retirados de la galería.**
+El fondo del hero es un reel de unos 29 segundos sin sonido y con grano, armado con primeros planos y detalles de los trabajos públicos (los planos generales delatan la IA, por eso no van): `assets/videos/reel.mp4` (1080p) y `reel-540.mp4` (celular, lo elige el navegador por el `media` del `<source>`). Abre con la mano y la máquina a punto de tocarse. **No lleva trabajos privados ni retirados de la galería.**
 
 Al cargar, el reel se resuelve desde los píxeles en un segundo y medio (`resolverReel()` en `js/main.js`), después del opener. Es el único movimiento que no dispara quien mira: no hay fundidos al hacer scroll.
 
