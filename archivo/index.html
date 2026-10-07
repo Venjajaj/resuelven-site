@@ -227,7 +227,10 @@
     try {
       const html = await (await fetch("index.html")).text();
       const doc = new DOMParser().parseFromString(html, "text/html");
+      // si un trabajo ya esta arriba entre los privados, no se repite abajo
+      const yaArriba = new Set([...privGrid.querySelectorAll(".work__title")].map((h) => h.textContent.trim()));
       doc.querySelectorAll("#workgrid .work").forEach((card) => {
+        if (yaArriba.has(card.querySelector(".work__title")?.textContent.trim())) return;
         card.classList.remove("work--hidden");
         card.removeAttribute("data-hidden-by-more");
         const c = document.importNode(card, true);
@@ -251,7 +254,8 @@
     });
   }
 
-  Promise.all([privados(), publicos()]).then(() => { filtros(); });
+  // primero los privados, para saber cuales no repetir en la galeria publica
+  privados().then(publicos).then(() => { filtros(); });
   </script>
 </body>
 </html>
