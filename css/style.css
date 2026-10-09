@@ -566,7 +566,8 @@ button {
 }
 
 .workgrid {
-  --row:clamp(170px,21vw,300px);
+  /* el alto de fila deja entrar una pieza de cine, una 16:9 y una vertical juntas */
+  --row:clamp(120px,18vw,270px);
   display:flex;
   flex-wrap:wrap;
   gap:30px 16px;

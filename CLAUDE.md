@@ -43,7 +43,7 @@ Comprime y genera la portada. **Ojo**: el script todavía imprime la entrada con
 Después de correrlo, la ficha se escribe a mano en `index.html`, y hay que tocar **cuatro cosas** o el sitio queda inconsistente:
 
 1. **La ficha** en `#workgrid`, copiando una existente. Los `data-*` mandan: `data-cat` (ficcion/animacion/publicidad), `data-media`, `data-src`, `data-fmt`, `data-client` (se omite si es igual al título), `data-country` (se omite si no aplica) y `data-roles` separados por coma. Además lleva **`style="--ar:<proporción>"` como número decimal** (1.778 para 16:9, 0.5625 para 9:16, 2.39 para cine): de ahí sale el ancho de la ficha. Escrito como `16/9` la ficha queda con ancho cero.
-2. **Las banderas de visibilidad**: solo las primeras trece llevan `data-hidden-by-more="false"` y no llevan la clase `work--hidden`; el resto al revés. Si agregás una arriba, hay que recalcular todas. La galería arma filas del mismo alto con cada pieza en su formato, así que el orden decide cómo quedan las filas: conviene mirar el resultado.
+2. **Las banderas de visibilidad**: solo las primeras once llevan `data-hidden-by-more="false"` y no llevan la clase `work--hidden`; el resto al revés. Si agregás una arriba, hay que recalcular todas. La galería arma filas del mismo alto con cada pieza en su formato, así que el orden decide cómo quedan las filas: conviene mirar el resultado.
 3. **El JSON-LD** del `<head>`: sumar el `ListItem`, renumerar todas las `position` y actualizar `numberOfItems`.
 4. **Las etiquetas nuevas** en `TYPE_LABELS`, `COUNTRY_LABELS` o `ROLE_LABELS` de `js/main.js`, en inglés y castellano. Si falta una, el crédito sale como `undefined`.
 
@@ -71,7 +71,7 @@ Cifra solo lo nuevo, borra lo que ya no se usa e imprime el link para mandar. Lo
 
 ## Estructura
 
-- `index.html` — todo el marcado, con atributos `data-i18n` para los textos. **Las 18 fichas de la galería están escritas acá**, no las genera el JS: cada `.work` lleva en `data-*` su categoría, el medio del lightbox y los créditos (`fmt`, `client`, `country`, `roles`), y los textos en castellano ya vienen puestos para que los lea un buscador. Para agregar una pieza se agrega la ficha a mano.
+- `index.html` — todo el marcado, con atributos `data-i18n` para los textos. **Las 20 fichas de la galería están escritas acá**, no las genera el JS: cada `.work` lleva en `data-*` su categoría, el medio del lightbox y los créditos (`fmt`, `client`, `country`, `roles`), y los textos en castellano ya vienen puestos para que los lea un buscador. Para agregar una pieza se agrega la ficha a mano.
 - `css/style.css` — hoja formateada en varias líneas. Estuvo minificada en una sola línea por herencia de Carrd hasta agosto de 2026, cuando se desminificó porque cada lectura costaba carísimo.
 - `js/main.js` — diccionarios de idioma y de etiquetas (`TYPE_LABELS`, `COUNTRY_LABELS`, `ROLE_LABELS`), traducción de los créditos de cada ficha, filtros, lightbox y el opener
 - `assets/` — videos, posters e imágenes
