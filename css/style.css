@@ -273,33 +273,30 @@ button {
   background:linear-gradient(180deg,rgba(10,14,20,0.5) 0%,rgba(10,14,20,0) 20%,rgba(10,14,20,0.1) 38%,rgba(10,14,20,0.78) 72%,var(--ink) 100%),linear-gradient(90deg,rgba(10,14,20,0.55) 0%,rgba(10,14,20,0.2) 55%,transparent 80%);
 }
 
+/* grano de pelicula: grueso, en blanco y negro, con contraste, y cambia en cada
+   cuadro (24 por segundo) como el de un negativo. Va en el navegador y no en el
+   video porque la compresion del video lo alisa. */
 .hero__grain {
   position:absolute;
-  inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  background-size:240px 240px;
-  opacity:0.11;
+  inset:-50%;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.6' intercept='-0.8'/%3E%3CfeFuncG type='linear' slope='2.6' intercept='-0.8'/%3E%3CfeFuncB type='linear' slope='2.6' intercept='-0.8'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size:400px 400px;
+  opacity:0.24;
   mix-blend-mode:overlay;
   pointer-events:none;
-  animation:grain 0.6s steps(4) infinite;
+  animation:grain 0.333s steps(1) infinite;
 }
 
 @keyframes grain {
-  0% {
-    background-position:0 0;
-  }
-  25% {
-    background-position:-60px 40px;
-  }
-  50% {
-    background-position:40px -70px;
-  }
-  75% {
-    background-position:-30px -50px;
-  }
-  100% {
-    background-position:0 0;
-  }
+  0% { transform:translate(0,0); }
+  12.5% { transform:translate(-7%,4%); }
+  25% { transform:translate(5%,-9%); }
+  37.5% { transform:translate(-11%,-3%); }
+  50% { transform:translate(9%,8%); }
+  62.5% { transform:translate(-3%,11%); }
+  75% { transform:translate(12%,-5%); }
+  87.5% { transform:translate(-8%,-10%); }
+  100% { transform:translate(0,0); }
 }
 
 .hero__bar {
