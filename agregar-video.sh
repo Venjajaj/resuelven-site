@@ -46,6 +46,14 @@ fi
 echo "Sacando portada del segundo $POSTER_AT..."
 ffmpeg -hide_banner -loglevel error -y -ss "$POSTER_AT" -i "$DEST" -frames:v 1 -q:v 2 "$POSTER"
 
+# clip mudo de 6 segundos que la galeria reproduce al pasar el mouse
+mkdir -p assets/previews
+PREV_AT=$(python3 -c "print(round($DUR*0.35,2))")
+echo "Sacando preview desde el segundo $PREV_AT..."
+ffmpeg -hide_banner -loglevel error -y -ss "$PREV_AT" -i "$DEST" -t 6 -an \
+  -vf "scale=-2:540,fps=24" -c:v libx264 -crf 28 -preset slow -pix_fmt yuv420p \
+  -movflags +faststart "assets/previews/${NAME}.mp4"
+
 # aviso si la portada quedo casi negra
 B=$(python3 -c "
 from PIL import Image, ImageStat

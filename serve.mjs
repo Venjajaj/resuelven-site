@@ -19,7 +19,16 @@ createServer(async (req, res) => {
     const file = normalize(join(root, path));
     if (!file.startsWith(root)) { res.writeHead(403); return res.end(); }
     const data = await readFile(file);
-    res.writeHead(200, { "Content-Type": types[extname(file)] || "application/octet-stream" });
+    const type = types[extname(file)] || "application/octet-stream";
+    // pedidos parciales, como los sirve GitHub Pages: sin esto no se puede saltar dentro de un video
+    const m = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || "");
+    if (m && (m[1] || m[2])) {
+      const start = m[1] ? Number(m[1]) : Math.max(0, data.length - Number(m[2]));
+      const end = m[1] && m[2] ? Math.min(Number(m[2]), data.length - 1) : data.length - 1;
+      res.writeHead(206, { "Content-Type": type, "Accept-Ranges": "bytes", "Content-Range": `bytes ${start}-${end}/${data.length}`, "Content-Length": end - start + 1 });
+      return res.end(data.subarray(start, end + 1));
+    }
+    res.writeHead(200, { "Content-Type": type, "Accept-Ranges": "bytes", "Content-Length": data.length });
     res.end(data);
   } catch {
     res.writeHead(404); res.end("not found");

@@ -146,7 +146,7 @@ button {
 }
 
 .nav__logo svg {
-  height:27px;
+  height:20px;
   width:auto;
   display:block;
 }
@@ -322,23 +322,144 @@ button {
   position:relative;
   text-shadow:0 1px 18px rgba(10,14,20,0.55);
   z-index:5;
-  max-width:1120px;
+  max-width:1300px;
 }
 
+/* el titulo ocupa el ancho de la pantalla: es la pieza grande del hero */
 .hero__title {
   font-family:var(--font-display);
-  font-size:clamp(38px,5vw,64px);
-  line-height:1.04;
+  /* una sola palabra, en la letra del logo: la mas larga de la lista ("reencuadran") tiene que entrar */
+  font-size:clamp(48px,min(15.6vw,30svh),300px);
+  line-height:0.94;
   font-weight:700;
-  letter-spacing:-0.025em;
-  margin-bottom:22px;
+  letter-spacing:-0.045em;
+  margin-bottom:clamp(20px,2.4vw,36px);
+  margin-left:-0.04em;
+}
+
+.hero__line {
+  display:block;
+  white-space:nowrap;
+}
+
+/* lo del medio de la palabra, que es lo que cambia */
+.hero__roll {
+  display:inline-block;
+  position:relative;
+}
+
+.hero__tail.pre {
+  visibility:hidden;
+}
+
+/* el canvas donde la palabra se rompe en cuadrados y se vuelve a armar */
+.hero__px {
+  position:absolute;
+  left:0;
+  top:0;
+  pointer-events:none;
+}
+
+/* la linea de montaje vive en la franja negra de abajo */
+.hero__cue {
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:46px;
+  z-index:6;
+  display:flex;
+  align-items:center;
+  gap:28px;
+  padding:0 var(--pad);
+}
+
+.hero__cue[hidden] {
+  display:none;
+}
+
+.hero__track {
+  flex:1;
+  min-width:0;
+  height:100%;
+  display:flex;
+  gap:3px;
+}
+
+.hero__seg {
+  flex:1 1 0;
+  min-width:0;
+  height:100%;
+  position:relative;
+  cursor:pointer;
+}
+
+.hero__seg::before,.hero__seg i {
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  height:3px;
+  margin-top:-1.5px;
+  transition:height 0.18s ease,margin-top 0.18s ease;
+}
+
+.hero__seg::before {
+  background:rgba(242,245,249,0.2);
+}
+
+.hero__seg i {
+  background:var(--text);
+  transform:scaleX(0);
+  transform-origin:left;
+}
+
+.hero__seg.on i {
+  background:var(--accent-soft);
+}
+
+.hero__seg:hover::before,.hero__seg:hover i {
+  height:13px;
+  margin-top:-6.5px;
+}
+
+.hero__now {
+  flex:none;
+  width:min(40%,360px);
+  text-align:right;
+  font-size:14px;
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color:var(--text);
+  transition:opacity 0.2s ease;
+}
+
+.hero__now-label {
+  color:var(--muted);
+  margin-right:6px;
+}
+
+.hero__now-title {
+  font-weight:600;
+}
+
+.hero__now:hover .hero__now-title {
+  color:var(--accent-soft);
+}
+
+.hero__now.empty {
+  opacity:0;
+  pointer-events:none;
 }
 
 .hero__sub {
-  font-size:clamp(17px,2vw,21px);
+  font-size:clamp(16px,1.5vw,19px);
   color:rgba(242,245,249,0.85);
-  max-width:720px;
-  margin-bottom:38px;
+  max-width:560px;
+  margin-bottom:30px;
 }
 
 .hero__actions {
@@ -614,6 +735,20 @@ button {
   background:#000;
 }
 
+/* el clip de preview tapa la portada y el boton de play mientras el mouse esta encima */
+.work__media .work__preview {
+  position:absolute;
+  inset:0;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 0.3s ease;
+  pointer-events:none;
+}
+
+.work__media.previewing .work__preview {
+  opacity:1;
+}
+
 .work__play {
   position:absolute;
   inset:0;
@@ -703,11 +838,13 @@ button {
 .lightbox__body {
   position:relative;
   z-index:1;
-  width:min(92vw,calc(80vh * var(--ar,1.778)),1400px);
+  /* las verticales no bajan de 420px para que entren los creditos y las flechas */
+  width:min(92vw,max(calc(70vh * var(--ar,1.778)),420px),1400px);
 }
 
 .lightbox__media {
-  width:100%;
+  width:min(100%,calc(70vh * var(--ar,1.778)));
+  margin:0 auto;
   aspect-ratio:var(--ar,16 / 9);
   background:#000;
   border-radius:4px;
@@ -739,6 +876,77 @@ button {
 }
 
 .lightbox__close:hover {
+  border-color:var(--accent-soft);
+  color:var(--accent-soft);
+}
+
+.lightbox__info {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px 28px;
+  padding-top:16px;
+}
+
+.lightbox__text {
+  min-width:0;
+  max-width:760px;
+}
+
+.lightbox__title {
+  font-family:var(--font-display);
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:-0.01em;
+  line-height:1.2;
+}
+
+.lightbox__meta {
+  margin-top:4px;
+  font-size:15px;
+  color:var(--text);
+  opacity:0.82;
+}
+
+.lightbox__roles {
+  margin-top:4px;
+  font-size:14px;
+  line-height:1.5;
+  color:var(--muted);
+}
+
+.lightbox__nav {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:none;
+}
+
+.lightbox__nav[hidden] {
+  display:none;
+}
+
+.lightbox__count {
+  font-size:14px;
+  color:var(--muted);
+  font-variant-numeric:tabular-nums;
+  margin-right:6px;
+  white-space:nowrap;
+}
+
+.lightbox__arrow {
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:inline-grid;
+  place-items:center;
+  color:var(--text);
+  border:1px solid var(--line);
+  background:rgba(10,14,20,0.6);
+  transition:border-color 0.2s ease,color 0.2s ease;
+}
+
+.lightbox__arrow:hover {
   border-color:var(--accent-soft);
   color:var(--accent-soft);
 }
@@ -941,6 +1149,22 @@ button {
 }
 
 @media (max-width:700px) {
+  .hero__cue {
+    gap:14px;
+  }
+  .hero__now {
+    width:46%;
+    font-size:13px;
+  }
+  .hero__now-label {
+    display:none;
+  }
+  .lightbox__info {
+    flex-direction:column-reverse;
+  }
+  .lightbox__nav {
+    align-self:flex-end;
+  }
   /* en el celular las verticales van de a dos y el resto a todo el ancho */
   .workgrid {
     --row:200px;

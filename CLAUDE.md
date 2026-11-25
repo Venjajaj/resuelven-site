@@ -38,7 +38,7 @@ Para agregar un video nuevo:
 ./agregar-video.sh /ruta/al/video.mp4 nombre-corto
 ```
 
-Comprime y genera la portada. **Ojo**: el script todavía imprime la entrada con el formato del array `WORKS`, que ya no existe; ignorá esa salida.
+Comprime, genera la portada y saca el clip de preview. **Ojo**: el script todavía imprime la entrada con el formato del array `WORKS`, que ya no existe; ignorá esa salida.
 
 Después de correrlo, la ficha se escribe a mano en `index.html`, y hay que tocar **cuatro cosas** o el sitio queda inconsistente:
 
@@ -52,6 +52,14 @@ El texto alternativo de la portada se escribe **mirando el fotograma**, describi
 La portada va **sin franjas negras** (recortada al contenido real) y a no más de 1600 px de ancho; las verticales, a 900. Sin subtítulos quemados ni logos grandes si el video tiene un cuadro limpio.
 
 Regla al comprimir: si el resultado pesa **más** que el original, se deja el original. Pasa cuando la fuente ya venía bien codificada a bitrate bajo.
+
+## Previews de la galería
+
+Al pasar el mouse por una ficha se reproduce un clip mudo de 6 segundos que tapa la portada. Vive en `assets/previews/` con **el mismo nombre de archivo que el video** de `data-src`; no hay atributo aparte. Son de 540 px de alto, CRF 28, y arrancan al 35 % de la duración de la pieza. Para cambiar el tramo de una pieza se regenera el clip con otro `-ss`. Si el clip no existe, la ficha se queda con la portada fija. Solo corre con mouse (no en táctil) y se apaga con `prefers-reduced-motion`. Las piezas embebidas (Drive, YouTube) no tienen preview.
+
+## Lightbox
+
+Debajo del video muestra título, ficha y créditos, que copia de la ficha de la galería, y a la derecha el contador y las flechas. Recorre las fichas visibles en ese momento, así que respeta el filtro y el "ver todos". Las flechas del teclado también pasan de pieza, salvo cuando el foco está en el video, donde adelantan y retroceden.
 
 ## Archivo privado
 
@@ -84,10 +92,19 @@ El fondo del hero es un reel de unos 44 segundos sin sonido y con grano, armado 
 
 El reel arranca directo, sin transición (se probó una de píxeles y se sacó). No hay fundidos al hacer scroll.
 
+El título del hero es una sola palabra: "re" queda fijo y cambia el resto (resuelven, revuelven, redoblan...). **Tiene ritmo de tragamonedas** (pedido textual: "como si fuera la maquinita del casino"): pasan catorce palabras al azar muy rápido, en cuadrados gruesos, aguantan a toda velocidad y frenan de golpe al final (de 30 ms a 230 ms por palabra; la curva se ajusta con `SPIN_FAST`, `SPIN_SLOW` y `SPIN_CURVE`), y **la última vuelta ya es la palabra que queda**: sus cuadrados finos se vuelven letra zona por zona, sin volver a romperse (antes había un cambio más después de frenar y se notaba un salto); después queda quieta menos de un segundo y arranca otra tirada, en el próximo corte del reel si llega a tiempo (`heroCue()` avisa con el evento `reelcut`). **Se probó que la palabra cayera justo en el corte y se sacó: algunos cortes son muy cortos.** Todo se dibuja en un canvas encima del texto real. **El azul del logo marca el giro**: mientras gira, más de la mitad de los cuadrados sale en azul, se va yendo con el frenado y la palabra que queda termina blanca. "resuelven" es una palabra más de la mezcla, sin trato especial (se probó hacerla caer más seguido y se sacó). Al cargar, "resuelven" entra resolviéndose desde cuadrados. La lista está en `HERO_TAILS`, arriba de todo en `js/main.js`, sin el "re"; el tamaño (15,6vw) está calculado para que entre la más larga, "reencuadran". Es igual en los dos idiomas. Con `prefers-reduced-motion` queda fija en "resuelven". **La "n" de píxeles del logo se probó en el título a gran tamaño y se sacó: no se adapta a esa escala.** Tampoco es la transición de píxeles del arranque del reel, que también se probó y se sacó; acá los píxeles son solo del texto al cambiar.
+
+**La línea de montaje** vive en la franja negra de abajo: un bloque por plano del reel, del ancho de su duración, que se va llenando con el video. A la derecha dice qué pieza está en pantalla; un clic en un bloque salta a ese plano y un clic en el nombre abre la pieza en el lightbox. Los tiempos de corte y la pieza de cada plano están escritos a mano en `SHOTS`, dentro de `heroCue()` en `js/main.js`. **Si se rearma el reel hay que rehacer esa lista**; los cortes se sacan con:
+
+```bash
+ffmpeg -i assets/videos/reel.mp4 -vf "select='gt(scene,0.25)',showinfo" -an -f null - 2>&1 | grep -o "pts_time:[0-9.]*"
+```
+
+Ese comando no detectó el último corte (42,375), que salió de `branding/reel-planos.txt`. Los planos de `bg.mp4` e `hibrido.mp4` no están en la galería y no muestran nombre.
+
 ## Diseño
 
-Una sola familia, Space Grotesk. Sin etiquetas en mayúsculas arriba de los títulos ni datos unidos con puntos medios: los créditos se escriben como frase, con comas. La caja con borde queda solo para lo que es un objeto, como un video. La crítica completa que llevó a esto está en `https://claude.ai/code/artifact/ba273dd6-7b7e-4fcb-95c8-c9f261ab8ce1`.
-
+Una sola familia, Space Grotesk, que es también la del logo. Se probó una condensada (Barlow Condensed y otras siete) para los títulos grandes y se descartó: la letra tiene que ser la misma que la del logo.
 ## Textos
 
 El sitio es bilingüe. Todo el copy vive en el objeto `I18N` de `js/main.js`, en `en` y `es`. El idioma por defecto es español.
