@@ -434,8 +434,6 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
 (function heroWords() {
   const firstTail = document.querySelector(".hero__tail");
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) { firstTail?.classList.remove("pre"); return; }
-  let bag = [];       // todas las palabras, mezcladas; se rearma cuando se vacia
-  let holdUntil = 0;  // la palabra que cayo se queda quieta hasta este momento
   let last = performance.now();
   let busy = true;    // ocupado hasta que termina la entrada
   const canvas = document.createElement("canvas");
@@ -464,7 +462,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
     const font = `${cs.fontWeight} ${fs}px ${cs.fontFamily}`;
     c2.font = font;
     if ("letterSpacing" in c2) c2.letterSpacing = cs.letterSpacing;
-    const w = Math.ceil(c2.measureText(text).width + fs * 0.2), h = Math.ceil(rr.height + up * 2);
+    const w = Math.ceil(c2.measureText(text).width + fs * 0.55), h = Math.ceil(rr.height + up * 2);
     img.width = Math.max(1, w * k);
     img.height = Math.max(1, h * k);
     c2.scale(k, k);
@@ -486,32 +484,39 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
   // force: si viene, toda la palabra B se pinta con ese tamano de cuadrado (0 fino a 3 grueso).
   // force -1 es el asentado: cada zona pasa del cuadrado fino a la letra nitida, sin volver a romperse.
   // tint: que parte de los cuadrados sale en el azul del logo (alto mientras gira, cero al quedar).
-  function render(A, B, p, mode, seed, tick, force, tint = 0) {
+  let tear = null;
+  // frente de generacion: lo que queda a la derecha de front.x todavia no se genero y va grueso
+  let front = null;
+  function render(A, B, p, mode, seed, tick, force, tint = 0, tgt = null) {
+    const cv = tgt ? tgt.canvas : canvas, cx = tgt ? tgt.ctx : ctx;
     const W = Math.max(A.w, B.w), H = Math.max(A.h, B.h), fs = B.fs, k = dprNow();
     const M = Math.max(16, Math.round(fs / 4 / 8) * 8);
-    canvas.width = W * k;
-    canvas.height = H * k;
-    canvas.style.width = W + "px";
-    canvas.style.height = H + "px";
-    canvas.style.top = -B.up + "px";
+    cv.width = W * k;
+    cv.height = H * k;
+    cv.style.width = W + "px";
+    cv.style.height = H + "px";
+    cv.style.top = -B.up + "px";
     // corrido para que caiga en pixeles enteros de pantalla: si no, la letra del canvas se ve
     // apenas movida respecto de la real y al cambiar una por otra se nota un salto
-    canvas.style.transform = `translate(${B.fx}px, ${B.fy}px)`;
-    ctx.setTransform(k, 0, 0, k, 0, 0);
+    cv.style.transform = `translate(${B.fx}px, ${B.fy}px)`;
+    cx.setTransform(k, 0, 0, k, 0, 0);
     const cols = Math.ceil(W / M), rows = Math.ceil(H / M);
     for (let my = 0; my < rows; my++) for (let mx = 0; mx < cols; mx++) {
       const settle = force === -1;
+      // falla: una franja de la palabra sale corrida de costado
+      const dx = tear && my === tear.row ? tear.dx : 0;
       const ph = settle ? (p > delay(mode, mx, my, cols, rows, seed) * 0.85 ? 1 : 0.5)
         : force != null ? 0.5 : Math.min(1, Math.max(0, (p - delay(mode, mx, my, cols, rows, seed) * 0.5) / 0.5));
       const S = force == null && ph < 0.5 ? A : B;
       const x0 = mx * M, y0 = my * M;
       if (ph <= 0 || ph >= 1) {
         // esta zona todavia no empezo o ya termino: va la letra nitida
-        if (x0 < S.w && y0 < S.h) ctx.drawImage(S.img, x0 * S.k, y0 * S.k, M * S.k, M * S.k, x0, y0, M, M);
+        if (x0 < S.w && y0 < S.h) cx.drawImage(S.img, x0 * S.k, y0 * S.k, M * S.k, M * S.k, x0 + dx, y0, M, M);
         continue;
       }
       // en el medio del cambio los cuadrados son los mas grandes
-      const lvl = settle ? 0 : force != null ? force : Math.min(3, Math.floor((1 - Math.abs(ph * 2 - 1)) * 4));
+      let lvl = settle ? 0 : force != null ? force : Math.min(3, Math.floor((1 - Math.abs(ph * 2 - 1)) * 4));
+      if (front && !settle && force != null && x0 >= front.x) lvl = front.lvl;
       const c = M / (8 >> lvl);
       const gap = Math.max(1, c * 0.14);
       for (let y = y0; y < y0 + M; y += c) for (let x = x0; x < x0 + M; x += c) {
@@ -526,11 +531,11 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
           blue = r > 1 - Math.max(0.07 * lvl, tint);            // y algunos salen en el azul del logo
         } else if (hit >= 3 || (hit >= 1 && lvl >= 2 && r > 0.8)) blue = true;
         else continue;
-        ctx.fillStyle = blue ? "rgba(136,172,214,0.9)" : "#f2f5f9";
+        cx.fillStyle = blue ? "rgba(136,172,214,0.9)" : "#f2f5f9";
         // los grandes se corren un poco de la grilla
         const jx = lvl >= 2 ? (rnd(y, x, tick, seed) - 0.5) * c * 0.36 : 0;
         const jy = lvl >= 2 ? (rnd(x, tick, y, seed) - 0.5) * c * 0.36 : 0;
-        ctx.fillRect(x + gap / 2 + jx, y + gap / 2 + jy, c - gap, c - gap);
+        cx.fillRect(x + gap / 2 + jx + dx, y + gap / 2 + jy, c - gap, c - gap);
       }
     }
   }
@@ -556,7 +561,11 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
         const t = performance.now() - t0;
         // avanza a saltos de 42 ms, como los cuadros del reel
         const now = Math.floor(t / 42);
-        if (now !== tick) { tick = now; render(A, B, Math.min(1, t / dur), mode, seed, tick); }
+        if (now !== tick) {
+          tick = now;
+          render(A, B, Math.min(1, t / dur), mode, seed, tick);
+          opts.after?.(B, tail, Math.min(1, t / dur), tick);
+        }
         if (t >= dur || !canvas.isConnected) break;
         await frame();
       }
@@ -567,77 +576,172 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
       last = performance.now();
     }
   }
-  // Ritmo de tragamonedas: las palabras pasan rapidisimo en cuadrados gruesos, van frenando
-  // y afinandose, y la ultima se resuelve nitida. Despues queda quieta un momento.
-  // La curva del frenado: SPIN_FAST es lo que dura cada palabra a toda velocidad, SPIN_SLOW lo
-  // que dura la ultima, y SPIN_CURVE cuanto aguanta rapido antes de frenar de golpe (mas alto,
-  // frena mas tarde y mas brusco).
-  const SPIN_STEPS = 12, SPIN_FAST = 26, SPIN_SLOW = 170, SPIN_CURVE = 3.4;
-  const SPIN = Array.from({ length: SPIN_STEPS }, (_, i) =>
-    Math.round(SPIN_FAST + (SPIN_SLOW - SPIN_FAST) * Math.pow(i / (SPIN_STEPS - 1), SPIN_CURVE)));
-  async function spin(word) {
-    const roll = document.querySelector(".hero__roll");
-    const tail = roll?.querySelector(".hero__tail");
-    if (!roll || !tail) return;
-    busy = true;
-    let prev = tail.textContent;
-    try {
-      tail.style.visibility = "hidden";
-      roll.appendChild(canvas);
-      const steps = SPIN.length;
-      let S = null;
-      for (let i = 0; i < steps && canvas.isConnected; i++) {
-        // la ultima vuelta ya es la palabra que queda: no hay un cambio mas despues de frenar
-        let w = word;
-        if (i < steps - 1) { do { w = HERO_TAILS[Math.floor(Math.random() * HERO_TAILS.length)]; } while (w === prev || w === word); }
-        prev = w;
-        S = sample(roll, tail, w);
-        // arranca grueso y se va afinando a medida que frena
-        // y arranca azul: el azul se va yendo con el frenado y la palabra que queda llega casi blanca
-        const tint = i < steps - 1 ? 0.6 - 0.3 * (i / (steps - 2)) : 0.22;
-        render(S, S, 0.5, 0, Math.random() * 1000, i, i < steps * 0.6 ? 2 : i < steps * 0.85 ? 1 : 0, tint);
-        await wait(SPIN[i]);
+  const widths = {};
+  function widthOf(tail, w) {
+    const cs = getComputedStyle(tail), font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const key = font + "|" + w;
+    if (!(key in widths)) {
+      ctx.save();
+      ctx.font = font;
+      if ("letterSpacing" in ctx) ctx.letterSpacing = cs.letterSpacing;
+      widths[key] = ctx.measureText(w).width;
+      ctx.restore();
+    }
+    return widths[key];
+  }
+  // El titulo no se detiene en ninguna palabra. Va en pendulo, de la mas angosta a la mas ancha
+  // y de vuelta, rapido y en cuadrados gruesos; en cada pasada se traba en una o dos palabras
+  // sorteadas, que se llegan a leer en cuadrados finos, temblando, y sigue. Las fallas (franjas
+  // corridas, parpadeos, ritmo desparejo) se sortean en el momento.
+  const PASS_FAST = [22, 40];   // ms de cada palabra a toda velocidad
+  const STALL = [300, 400];     // ms que dura la trabada donde la palabra se lee
+  const between = ([lo, hi]) => lo + Math.random() * (hi - lo);
+  // Donde termina la tinta de la palabra, para saber hasta donde avanza el frente de generacion.
+  // Del logo no va nada en el titulo: la n de cuadrados y los dos puntos sueltos se probaron
+  // y se sacaron.
+  function boxOf(S, tail, word) {
+    if (!S.box) {
+      const nx = Math.round(widthOf(tail, word.slice(0, -1)) - S.fx);
+      let x1 = 0, y0 = S.h, y1 = 0;
+      for (let y = 0; y < S.h; y++) for (let x = nx; x < S.w; x++) {
+        if (alpha(S, x, y) > 127) { if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
       }
-      // asentado: los cuadrados finos de esa misma palabra se vuelven letra, zona por zona
-      if (S && canvas.isConnected) {
-        tail.textContent = word;
-        const seed = Math.random() * 1000, t0 = performance.now(), dur = 160;
-        for (;;) {
-          const t = performance.now() - t0;
-          render(S, S, Math.min(1, t / dur), 0, seed, Math.floor(t / 42), -1, 0.22 * (1 - Math.min(1, t / dur)));
-          if (t >= dur || !canvas.isConnected) break;
-          await frame();
-        }
-      }
-      tail.textContent = word;
-      tail.style.visibility = "";
-    } finally {
-      canvas.remove();
-      busy = false;
-      last = performance.now();
+      S.box = { x1, y0, u: (y1 - y0 + 1) / 22 };
+    }
+    return S.box;
+  }
+  // "resuelven" es la unica que termina de formarse, en letra blanca
+  function brand(S, tail, tick) {
+    ctx.clearRect(0, 0, S.w, S.h);
+    ctx.drawImage(S.img, 0, 0, S.img.width, S.img.height, 0, 0, S.w, S.h);
+  }
+  // se forma desde cuadrados finos, queda quieta ms milisegundos y vuelve a romperse
+  async function brandHold(roll, tail, ms, formed) {
+    tail.style.visibility = "hidden";
+    if (canvas.parentNode !== roll) roll.appendChild(canvas);
+    const S = sample(roll, tail, HERO_TAILS[0]);
+    const seed = Math.random() * 1000, t0 = performance.now(), dur = 260;
+    if (formed) render(S, S, 1, 0, seed, 0, -1, 0);
+    else for (;;) {
+      const t = performance.now() - t0;
+      const p = Math.min(1, t / dur);
+      render(S, S, p, 1, seed, Math.floor(t / 42), -1, 0.2 * (1 - p));
+      if (t >= dur || !canvas.isConnected) break;
+      await frame();
+    }
+    const end = performance.now() + ms;
+    let tick = 0;
+    while (performance.now() < end && canvas.isConnected) {
+      brand(S, tail, tick++);
+      await wait(170);
     }
   }
-  function change() {
-    if (busy || document.hidden) return;
-    const now = performance.now();
-    if (now < holdUntil) return;
-    // "resuelven" es una palabra mas: sale cuando le toca en la mezcla, sin trato especial
-    if (!bag.length) bag = HERO_TAILS.slice().sort(() => Math.random() - 0.5);
-    let word = bag.pop();
-    const shown = document.querySelector(".hero__tail")?.textContent;
-    if (word === shown) { bag.unshift(word); word = bag.pop(); }
-    spin(word).then(() => { holdUntil = performance.now() + 450 + Math.random() * 250; });
+  // El "re" queda fijo, pero no ajeno: mientras el resto pasa rapido, cada tanto se rompe un
+  // instante en cuadrados, a veces con una franja corrida. Se dibuja en un canvas propio encima
+  // del "re" real, que se oculta ese instante (color transparente: a los canvas no los afecta).
+  const reCanvas = document.createElement("canvas");
+  reCanvas.className = "hero__px";
+  reCanvas.setAttribute("aria-hidden", "true");
+  const reTgt = { canvas: reCanvas, ctx: reCanvas.getContext("2d") };
+  function reGlitch(roll, n) {
+    const outer = roll.parentNode;
+    const S = sample(outer, outer, "re");
+    const rows = Math.ceil(S.h / Math.max(16, Math.round(S.fs / 4 / 8) * 8));
+    const keep = tear;
+    tear = Math.random() < 0.7 ? { row: Math.floor(Math.random() * rows), dx: (Math.random() < 0.5 ? -1 : 1) * S.fs * (0.05 + Math.random() * 0.1) } : null;
+    if (reCanvas.parentNode !== outer) outer.insertBefore(reCanvas, outer.firstChild);
+    render(S, S, 0.5, 0, Math.random() * 1000, n, [0, 1, 1, 2][Math.floor(Math.random() * 4)], 0.1 + Math.random() * 0.3, reTgt);
+    tear = keep;
+    outer.style.color = "transparent";
   }
-  // entrada: la palabra de la marca se resuelve desde cuadrados, del centro hacia afuera, una sola vez
+  function reClean(roll) {
+    if (!reCanvas.parentNode) return;
+    reCanvas.remove();
+    roll.parentNode.style.color = "";
+  }
+  let onScreen = true;
+  const heroEl = document.querySelector(".hero");
+  if (heroEl && "IntersectionObserver" in window) {
+    new IntersectionObserver((es) => { onScreen = es[0].isIntersecting; }).observe(heroEl);
+  }
+  async function run() {
+    let idx = 0, dir = 1, path = [], stalls = new Set(), lastStall = "", n = 0;
+    let sinceBrand = 0, brandAt = -1;   // cada tantas pasadas, "resuelven" se forma del todo
+    for (;;) {
+      // el titulo se reescribe al cambiar de idioma: se busca de nuevo en cada vuelta
+      const roll = document.querySelector(".hero__roll");
+      const tail = roll?.querySelector(".hero__tail");
+      if (!roll || !tail || document.hidden || !onScreen) { await wait(200); continue; }
+      tail.classList.remove("pre");
+      if (tail.style.visibility !== "hidden") tail.style.visibility = "hidden";
+      if (canvas.parentNode !== roll) roll.appendChild(canvas);
+      if (idx >= path.length) {
+        // pasada nueva, en el otro sentido: se sortea por cuales pasa y en cuales se traba
+        const sorted = HERO_TAILS.slice().sort((x, y) => dir * (widthOf(tail, x) - widthOf(tail, y)));
+        dir = -dir;
+        const picks = sorted.filter((w) => w !== lastStall).sort(() => Math.random() - 0.5).slice(0, Math.random() < 0.55 ? 1 : 2);
+        const due = ++sinceBrand >= 3;
+        path = sorted.filter((w) => picks.includes(w) || (due && w === HERO_TAILS[0]) || Math.random() < 0.8);
+        stalls = new Set(picks.map((w) => path.indexOf(w)));
+        brandAt = due ? path.indexOf(HERO_TAILS[0]) : -1;
+        if (due) { stalls.add(brandAt); sinceBrand = 0; }
+        idx = 0;
+      }
+      const w = path[idx];
+      const S = sample(roll, tail, w);
+      const rows = Math.ceil(S.h / Math.max(16, Math.round(S.fs / 4 / 8) * 8));
+      const rip = (chance, size) => Math.random() < chance
+        ? { row: Math.floor(Math.random() * rows), dx: (Math.random() < 0.5 ? -1 : 1) * S.fs * (size + Math.random() * size) } : null;
+      if (idx === brandAt) {
+        lastStall = w;
+        render(S, S, 0.5, 0, Math.random() * 1000, n++, 0, 0.15);
+        await wait(90);
+        await brandHold(roll, tail, 1000 + Math.random() * 400);
+        render(S, S, 0.5, 0, Math.random() * 1000, n++, 0, 0.2);
+        await wait(70);
+      } else if (stalls.has(idx)) {
+        // trabada: la palabra se lee, en cuadrados finos y temblando
+        lastStall = w;
+        const t0 = performance.now(), end = t0 + between(STALL), gen = 170;
+        const x1 = boxOf(S, tail, w).x1;
+        while (performance.now() < end && canvas.isConnected) {
+          // la palabra se vuelve legible de izquierda a derecha
+          const q = Math.min(1, (performance.now() - t0) / gen);
+          front = q < 1 ? { x: q * x1, lvl: 2 } : null;
+          tear = q < 1 ? null : rip(0.3, 0.05);
+          render(S, S, 0.5, 0, Math.random() * 1000, n++, 0, 0.06 + Math.random() * 0.12);
+          await wait(q < 1 ? 28 : 50 + Math.random() * 45);
+        }
+        front = null;
+      } else {
+        // cerca de una trabada frena y se afina; lejos pasa grueso, azul y a toda velocidad
+        const near = Math.min(...[...stalls].map((k) => Math.abs(k - idx)));
+        let lvl = near === 1 ? 1 : 2;
+        if (near > 1 && Math.random() < 0.3) lvl = 3;
+        tear = rip(0.2, 0.08);
+        render(S, S, 0.5, 0, Math.random() * 1000, n++, lvl, 0.25 + Math.random() * 0.45);
+        if (near > 1 && Math.random() < 0.14) reGlitch(roll, n);
+        await wait(near === 1 ? 70 + Math.random() * 50 : near === 2 ? 45 + Math.random() * 25 : between(PASS_FAST));
+        if (Math.random() < 0.05) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          await wait(30 + Math.random() * 30);
+        }
+      }
+      tear = null;
+      reClean(roll);
+      idx++;
+    }
+  }
+  // entrada: la palabra de la marca se resuelve desde cuadrados de izquierda a derecha, como
+  // se lee, saliendo del "re" (desde el centro se probo y no tenia sentido); al terminar
+  // aparecen los dos puntos
   (async function intro() {
     try { await document.fonts.ready; } catch {}
     while (!document.body.classList.contains("ready")) await wait(80);
-    await morph(HERO_TAILS[0], { from: "", mode: 3, dur: 700 });
-    holdUntil = performance.now() + 1400;
-    // cuando ya paso el descanso, la tirada siguiente arranca en el proximo corte del reel
-    document.addEventListener("reelcut", change);
-    // y si el corte tarda, arranca igual (esto ademas la mantiene andando si el reel no arranca)
-    setInterval(() => { if (performance.now() > holdUntil + 250) change(); }, 80);
+    await morph(HERO_TAILS[0], { from: "", mode: 1, dur: 700 });
+    const roll = document.querySelector(".hero__roll"), tail = roll?.querySelector(".hero__tail");
+    if (roll && tail) await brandHold(roll, tail, 1100, true);
+    run();
   })();
 })();
 applyTexts();

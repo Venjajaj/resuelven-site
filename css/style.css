@@ -343,6 +343,7 @@ button {
 }
 
 /* lo del medio de la palabra, que es lo que cambia */
+.hero__line > span { position:relative; }
 .hero__roll {
   display:inline-block;
   position:relative;
