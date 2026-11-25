@@ -572,7 +572,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
   // La curva del frenado: SPIN_FAST es lo que dura cada palabra a toda velocidad, SPIN_SLOW lo
   // que dura la ultima, y SPIN_CURVE cuanto aguanta rapido antes de frenar de golpe (mas alto,
   // frena mas tarde y mas brusco).
-  const SPIN_STEPS = 14, SPIN_FAST = 30, SPIN_SLOW = 230, SPIN_CURVE = 3.4;
+  const SPIN_STEPS = 12, SPIN_FAST = 26, SPIN_SLOW = 170, SPIN_CURVE = 3.4;
   const SPIN = Array.from({ length: SPIN_STEPS }, (_, i) =>
     Math.round(SPIN_FAST + (SPIN_SLOW - SPIN_FAST) * Math.pow(i / (SPIN_STEPS - 1), SPIN_CURVE)));
   async function spin(word) {
@@ -601,7 +601,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
       // asentado: los cuadrados finos de esa misma palabra se vuelven letra, zona por zona
       if (S && canvas.isConnected) {
         tail.textContent = word;
-        const seed = Math.random() * 1000, t0 = performance.now(), dur = 220;
+        const seed = Math.random() * 1000, t0 = performance.now(), dur = 160;
         for (;;) {
           const t = performance.now() - t0;
           render(S, S, Math.min(1, t / dur), 0, seed, Math.floor(t / 42), -1, 0.22 * (1 - Math.min(1, t / dur)));
@@ -626,7 +626,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
     let word = bag.pop();
     const shown = document.querySelector(".hero__tail")?.textContent;
     if (word === shown) { bag.unshift(word); word = bag.pop(); }
-    spin(word).then(() => { holdUntil = performance.now() + 700 + Math.random() * 350; });
+    spin(word).then(() => { holdUntil = performance.now() + 450 + Math.random() * 250; });
   }
   // entrada: la palabra de la marca se resuelve desde cuadrados, del centro hacia afuera, una sola vez
   (async function intro() {
@@ -637,7 +637,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
     // cuando ya paso el descanso, la tirada siguiente arranca en el proximo corte del reel
     document.addEventListener("reelcut", change);
     // y si el corte tarda, arranca igual (esto ademas la mantiene andando si el reel no arranca)
-    setInterval(() => { if (performance.now() > holdUntil + 350) change(); }, 120);
+    setInterval(() => { if (performance.now() > holdUntil + 250) change(); }, 80);
   })();
 })();
 applyTexts();
