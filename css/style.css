@@ -329,7 +329,7 @@ button {
 .hero__title {
   font-family:var(--font-display);
   /* una sola palabra, en la letra del logo: la mas larga de la lista ("reencuadran") tiene que entrar */
-  font-size:clamp(48px,min(15.6vw,30svh),300px);
+  font-size:clamp(44px,min(15.6vw,14svh),96px);
   line-height:0.94;
   font-weight:700;
   letter-spacing:-0.045em;
