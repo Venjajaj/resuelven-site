@@ -648,7 +648,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
     const S = sample(outer, outer, "re");
     const rows = Math.ceil(S.h / Math.max(16, Math.round(S.fs / 4 / 8) * 8));
     const keep = tear;
-    tear = Math.random() < 0.7 ? { row: Math.floor(Math.random() * rows), dx: (Math.random() < 0.5 ? -1 : 1) * S.fs * (0.05 + Math.random() * 0.1) } : null;
+    tear = Math.random() < 0.4 ? { row: Math.floor(Math.random() * rows), dx: (Math.random() < 0.5 ? -1 : 1) * S.fs * (0.05 + Math.random() * 0.1) } : null;
     if (reCanvas.parentNode !== outer) outer.insertBefore(reCanvas, outer.firstChild);
     render(S, S, 0.5, 0, Math.random() * 1000, n, [0, 1, 1, 2][Math.floor(Math.random() * 4)], 0.1 + Math.random() * 0.3, reTgt);
     tear = keep;
@@ -680,7 +680,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
         const sorted = HERO_TAILS.slice().sort((x, y) => dir * (widthOf(tail, x) - widthOf(tail, y)));
         dir = -dir;
         const picks = sorted.filter((w) => w !== lastStall).sort(() => Math.random() - 0.5).slice(0, Math.random() < 0.55 ? 1 : 2);
-        const due = ++sinceBrand >= 3;
+        const due = false;   // ya no se forma ninguna: pidio que nunca se quede en una palabra
         path = sorted.filter((w) => picks.includes(w) || (due && w === HERO_TAILS[0]) || Math.random() < 0.8);
         stalls = new Set(picks.map((w) => path.indexOf(w)));
         brandAt = due ? path.indexOf(HERO_TAILS[0]) : -1;
@@ -708,7 +708,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
           // la palabra se vuelve legible de izquierda a derecha
           const q = Math.min(1, (performance.now() - t0) / gen);
           front = q < 1 ? { x: q * x1, lvl: 2 } : null;
-          tear = q < 1 ? null : rip(0.3, 0.05);
+          tear = q < 1 ? null : rip(0.1, 0.04);
           render(S, S, 0.5, 0, Math.random() * 1000, n++, 0, 0.06 + Math.random() * 0.12);
           await wait(q < 1 ? 28 : 50 + Math.random() * 45);
         }
@@ -717,12 +717,12 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
         // cerca de una trabada frena y se afina; lejos pasa grueso, azul y a toda velocidad
         const near = Math.min(...[...stalls].map((k) => Math.abs(k - idx)));
         let lvl = near === 1 ? 1 : 2;
-        if (near > 1 && Math.random() < 0.3) lvl = 3;
-        tear = rip(0.2, 0.08);
+        if (near > 1 && Math.random() < 0.15) lvl = 3;
+        tear = rip(0.08, 0.06);
         render(S, S, 0.5, 0, Math.random() * 1000, n++, lvl, 0.25 + Math.random() * 0.45);
-        if (near > 1 && Math.random() < 0.14) reGlitch(roll, n);
+        if (near > 1 && Math.random() < 0.06) reGlitch(roll, n);
         await wait(near === 1 ? 70 + Math.random() * 50 : near === 2 ? 45 + Math.random() * 25 : between(PASS_FAST));
-        if (Math.random() < 0.05) {
+        if (Math.random() < 0.02) {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           await wait(30 + Math.random() * 30);
         }
@@ -740,7 +740,7 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
     while (!document.body.classList.contains("ready")) await wait(80);
     await morph(HERO_TAILS[0], { from: "", mode: 1, dur: 700 });
     const roll = document.querySelector(".hero__roll"), tail = roll?.querySelector(".hero__tail");
-    if (roll && tail) await brandHold(roll, tail, 1100, true);
+    if (roll && tail) await brandHold(roll, tail, 250, true);
     run();
   })();
 })();
