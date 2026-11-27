@@ -18,6 +18,7 @@ const I18N = {
     hero_kicker: "AUDIOVISUAL PRODUCTION COMPANY",
     hero_title: HERO_TITLE,
     hero_now: "On screen",
+    skip: "Skip to work",
     hero_sub: "We turn ideas, stories and visions into pieces ready for pitch, campaign or screen. We work as technical-creative allies to projects, agencies and production companies around the world.",
     work_kicker: "Work",
     work_more: "Show all projects",
@@ -64,6 +65,7 @@ const I18N = {
     hero_kicker: "PRODUCTORA AUDIOVISUAL",
     hero_title: HERO_TITLE,
     hero_now: "En pantalla",
+    skip: "Ir a los trabajos",
     hero_sub: "Convertimos ideas, historias y visiones en piezas listas para pitch, campaña o pantalla. Trabajamos como aliados técnico-creativos de proyectos, agencias y productoras alrededor del mundo.",
     work_kicker: "Trabajos",
     work_more: "Ver todos los proyectos",
@@ -241,7 +243,16 @@ function renderWorkCaptions() {
   });
 }
 grid.querySelectorAll(".work").forEach((card) => {
-  card.querySelector(".work__media").addEventListener("click", () => openLightbox(card));
+  // la imagen es el boton: recibe foco y abre con Enter o Espacio; el titulo tambien abre
+  const media = card.querySelector(".work__media");
+  media.tabIndex = 0;
+  media.setAttribute("role", "button");
+  media.setAttribute("aria-label", card.querySelector(".work__title").textContent.trim());
+  media.addEventListener("click", () => openLightbox(card));
+  media.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(card); }
+  });
+  card.querySelector(".work__title").addEventListener("click", () => openLightbox(card));
 });
 renderWorkCaptions();
 // preview en movimiento al pasar el mouse: un clip mudo de 6 segundos por pieza, en
@@ -333,8 +344,12 @@ const navEl = document.getElementById("nav");
 addEventListener("scroll", () => navEl.classList.toggle("scrolled", scrollY > 30), { passive: true });
 const burger = document.getElementById("burger");
 const navLinks = document.querySelector(".nav__links");
-burger.addEventListener("click", () => navLinks.classList.toggle("open"));
-navLinks.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => navLinks.classList.remove("open")));
+burger.setAttribute("aria-expanded", "false");
+burger.addEventListener("click", () => burger.setAttribute("aria-expanded", String(navLinks.classList.toggle("open"))));
+navLinks.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => {
+  navLinks.classList.remove("open");
+  burger.setAttribute("aria-expanded", "false");
+}));
 // los videos de los dos bloques de metodo: no se descargan hasta que entran en pantalla,
 // arrancan solos en silencio y se pausan al salir
 const studioVids = document.querySelectorAll(".studio-col__vid");
@@ -445,7 +460,19 @@ if (studioVids.length && !matchMedia("(prefers-reduced-motion: reduce)").matches
   const rnd = (a, b, c, d) => { const v = Math.sin(a * 127.1 + b * 311.7 + c * 74.7 + d * 19.19) * 43758.5453; return v - Math.floor(v); };
   const dprNow = () => Math.min(devicePixelRatio || 1, 2);
   // dibuja la palabra fuera de pantalla, en el mismo lugar y con la misma letra que el texto real
+  // Medir y dibujar una palabra es lo caro (fuerza layout y lee pixeles), y el titulo cambia de
+  // palabra unas 30 veces por segundo: cada palabra se mide una sola vez y se guarda. Se vuelve
+  // a medir si cambia el tamano de la ventana; al cambiar de idioma el titulo es otro elemento.
+  let samples = new WeakMap();
+  addEventListener("resize", () => { samples = new WeakMap(); });
   function sample(roll, tail, text) {
+    let byText = samples.get(roll);
+    if (!byText) samples.set(roll, (byText = new Map()));
+    let S = byText.get(text);
+    if (!S) byText.set(text, (S = measure(roll, tail, text)));
+    return S;
+  }
+  function measure(roll, tail, text) {
     const cs = getComputedStyle(tail);
     const fs = parseFloat(cs.fontSize);
     const k = dprNow();

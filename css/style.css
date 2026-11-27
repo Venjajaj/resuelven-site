@@ -1122,8 +1122,21 @@ button {
   .nav__burger {
     display:flex;
   }
+  /* en celu el contacto queda en la barra, solo con el icono */
   .nav__cta {
-    display:none;
+    padding:10px;
+    width:42px;
+    height:42px;
+    justify-content:center;
+  }
+  /* oculto a la vista pero no a los lectores de pantalla */
+  .nav__cta span {
+    position:absolute;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    clip-path:inset(50%);
+    white-space:nowrap;
   }
   .hero {
     padding-top:100px;
@@ -1189,3 +1202,17 @@ button {
     overflow:hidden;
   }
 }
+
+.work__title { cursor:pointer; }
+.skip {
+  position:absolute;
+  left:-9999px;
+  top:8px;
+  z-index:200;
+  padding:10px 16px;
+  background:var(--text);
+  color:var(--bg, #0a0e14);
+  border-radius:8px;
+  font-weight:600;
+}
+.skip:focus { left:8px; }
